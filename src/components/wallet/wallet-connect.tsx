@@ -17,10 +17,42 @@ export default function WalletConnect({
   anchorClassName?: string;
 }) {
   const { openModal } = useModal();
-  const { address, disconnectWallet, balance } = useContext(WalletContext);
+  // const { address, disconnectWallet, balance } = useContext(WalletContext);
+  function getAddress() {
+    const adr = localStorage.getItem('address');
+    if (adr) {
+      return adr;
+    }
+    return '';
+
+  }
+  function signOut() {
+    localStorage.removeItem('address');
+    window.location.reload();
+  }
+  const address = getAddress();
+
   return (
     <>
-      {address ? (
+      {address === '' ? (
+            <Button
+            // go to localhost:3001
+                onClick={() => window.location.href = 'http://localhost:3001'}
+                className={cn('shadow-main hover:shadow-large', btnClassName)}
+            >
+                CONNECT
+            </Button>
+      ) : (
+        <Button
+        onClick={() => signOut()}
+        className={cn('shadow-main hover:shadow-large', btnClassName)}
+      >
+        DISCONNECT
+      </Button>
+      )}
+
+        
+      {/* {address ? (
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
           <div className="relative flex-shrink-0">
             <Menu>
@@ -98,7 +130,7 @@ export default function WalletConnect({
         >
           CONNECT
         </Button>
-      )}
+      )} */}
     </>
   );
 }
