@@ -1,2 +1,9 @@
-# phaos-wallet
-1st Idena Proof-of-Personhood Blockchain Wallet
+## Requirements
+
+- node
+- yarn
+
+## Installation
+
+1. yarn
+2. yarn dev
