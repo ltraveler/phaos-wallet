@@ -14,11 +14,11 @@ export const menuItems = [
   //   icon: <ExchangeIcon />,
   //   href: routes.swap,
   // },
-  // {
-  //   name: 'Profile',
-  //   icon: <ProfileIcon />,
-  //   href: routes.profile,
-  // },
+  {
+    name: 'Token',
+    icon: <ProfileIcon />,
+    href: routes.token,
+  },
   {
     name: 'Help',
     icon: <HomeIcon />,
@@ -26,7 +26,7 @@ export const menuItems = [
     dropdownItems: [
       {
         name: 'Support',
-        href: routes.home,
+        href: "https://discord.gg/SjuPtn3q",
       },
     ],
   },

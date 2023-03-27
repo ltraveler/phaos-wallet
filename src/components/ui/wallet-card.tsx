@@ -7,6 +7,8 @@ import { LongArrowUp } from '@/components/icons/long-arrow-up';
 import { Idena } from '@/components/icons/idena';
 import { getTokens } from './tokens';
 
+import { getBalance } from './idena'
+
 export const walletCurrencies =  getTokens();
 import { getIconFromName } from '@/data/static/coin-list';
 
@@ -17,10 +19,24 @@ import { getIconFromName } from '@/data/static/coin-list';
 
 export default function WalletCard() {
   const [isChangePositive, setChangeStatus] = useState(true);
+  const address = localStorage.getItem('address') || '0x0000000000000000000000000000000000000000';
+  const [walletBalances, setWalletBalances] = useState([]);
+  const [first, setFirst] = useState(0);
+
   // get balances from getTokens
-  walletCurrencies.map((currency) => {
-    currency.balance = 123;
-  });
+  if (first === 0) {
+    setFirst(1);
+    walletCurrencies.forEach(async (item, index) => {
+      const balance = await getBalance(item.contract, address);
+      walletCurrencies[index].balance = balance;
+      // balance to int
+      walletCurrencies[index].balance = parseInt(walletCurrencies[index].balance + 1  );
+      setWalletBalances(walletCurrencies);
+    });
+  }
+  console.log(walletCurrencies);
+  const [balance, setBalance] = useState(0);
+  
   const [percentage, setPercentage] = useState(walletCurrencies[0].balance);
   // set symbol
   const [symbol, setSymbol] = useState(walletCurrencies[0].code);
@@ -69,10 +85,9 @@ export default function WalletCard() {
 
         </div>
       </div>
-
       <div className="mt-20">
         <div className="mb-5 flex items-center justify-between text-sm font-medium text-gray-400">
-          <span>Coin Name</span>
+          <span>Token Name</span>
           <span>Sybmbol</span>
 
           <span>Balance</span>

@@ -37,11 +37,7 @@ const Login = () => {
 
 
     } 
-    return (
-        <>
-            Loading...
-        </>
-    );
+
 };
 
 export default Login;

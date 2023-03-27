@@ -6,6 +6,7 @@ const routes = {
   portfolio: '/profile?view=portfolio',
   history: '/profile?view=history',
   login: '/login',
+  token: '/token',
 };
 
 export default routes;

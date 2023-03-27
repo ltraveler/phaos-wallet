@@ -114,8 +114,10 @@ async function getDecimals(tokenAddr){
     "id": 1,
     "key": api_key
     };
+    console.log(callData)
     let response = await rpcCall(callData);
-    
+    console.log("GET DEC",response);
+
     let decimals = hexToDec(response.result.actionResult.outputData);
     //console.log(decimals)
     return decimals;
@@ -138,7 +140,12 @@ async function getBalance(tokenAddr, address){
     "id": 1,
     "key": api_key
     };
+    
+    // remove things that can break hex
+    
+    console.log(callData)
     let response = await rpcCall(callData);
+    console.log("GET BALANCE",response);
 
     let balance = hexToBigInt(response.result.actionResult.outputData);
     if (balance == 0) {
@@ -168,7 +175,7 @@ async function hasClaimed(address){
     let callData={
         "method": "contract_readMap",
         "params": [
-            "[PLACEHOLDER]", // Our token address
+            "0xb96B66Fae5eA6EC84582C2d5712a2fC96BD4f2e9", // Our token address
             "c:",
             address,
             "byte"
@@ -181,8 +188,8 @@ async function hasClaimed(address){
     return 0;
 }
 
-async function claimTx(){
-    if (await hasClaimed("[PLACEHOLDER]")){ // ADDRESS FROM IDENA AUTH SIGN IN
+async function claimTx(address){
+    if (await hasClaimed(address)){ // ADDRESS FROM IDENA AUTH SIGN IN
         // do something
         return 0;
     }
@@ -190,8 +197,8 @@ async function claimTx(){
         "method": "bcn_getRawTx",
         "params": [{
             "type": 16,
-            "from": "[PLACEHOLDER]", // ADDRESS FROM IDENA AUTH SIGN IN
-            "to": "[PLACEHOLDER]", // Our token address
+            "from": address, // ADDRESS FROM IDENA AUTH SIGN IN
+            "to": "0xb96B66Fae5eA6EC84582C2d5712a2fC96BD4f2e9", // Our token address
             "amount": 0,
             "maxFee": 0.5,
             "payload": "0x0a05636c61696d", // claim method

@@ -27,7 +27,31 @@ export default function MinimalScreen() {
   const breakpoint = useBreakpoint();
   // local
   const address = localStorage.getItem('address');
+  const [balance, setBalance] = useState(0);
+  const [first, setFirst] = useState(0);
+  if (first === 0) {
+    setFirst(1);
+    localStorage.setItem('balance', '0');
 
+    fetch('http://api.idena.io/api/address/' + address)
+    .then(response => response.json())
+    .then(data => {
+      setBalance(data.result.balance);
+      // 4 decimals
+      setBalance(Math.round(data.result.balance * 10000) / 10000);
+      if (data.result.balance === undefined) {
+        setBalance(0);
+        console.log(data);
+      }
+      // set local storage
+      localStorage.setItem('balance', data.result.balance);
+  
+    }).catch(err => {
+      setBalance(0); 
+    });
+  }
+
+  console.log(balance);
   // GET BALANCE  
   useEffect(() => {
     setLimit(topPoolsLimit(breakpoint));
@@ -54,8 +78,10 @@ export default function MinimalScreen() {
                     <Avatar
                       alt="Author"
                       className="mx-auto mb-6"
-                      size="lg"
+                      size="xl"
+                      
                     />
+            
                     <h6 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
                       {address}
                     </h6>
@@ -63,12 +89,13 @@ export default function MinimalScreen() {
                       My Balance
                     </h3>
                     <div className="mb-7 text-center font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl 3xl:mb-8 3xl:text-[32px]">
-                      ?
+                      {balance} iDNA
+                       
                     </div>
                   </div>
                 ) : (
                   <div>
-
+                    <img src="https://robohash.org/PhaoWallet" alt="Phao Wallet" className="mx-auto mb-6" width="100" height="100" />
                     <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
                       Connect your wallet
                     </h3>

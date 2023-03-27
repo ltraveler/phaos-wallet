@@ -163,8 +163,8 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
           fullWidth={true}
           className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
           onClick={() => {
-            saveTokenDemo();
-            window.location.reload();
+            saveToken(document.getElementById('contract-address').value);
+            //window.location.reload();
 
           }}
           

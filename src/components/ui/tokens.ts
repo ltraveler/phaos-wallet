@@ -4,6 +4,10 @@
 import { getBalance , getSymbol, getName, getDecimals} from './idena'
 // import localStorage from 
 import { Idena } from '@/components/icons/idena';
+async function getTokenSymbol(token_contract) {
+    const symbol = await getSymbol(token_contract);
+    return symbol;
+}
 
 export const saveToken = (token_contract: string) => {
     // array
@@ -12,15 +16,28 @@ export const saveToken = (token_contract: string) => {
         if (tokens === null) {
             tokens = []
         }
+    
+        
         let token  = {
             contract: token_contract,
-            symbol: getSymbol(token_contract),
-            name: getName(token_contract),
-            decimals: getDecimals(token_contract),
+            symbol : '',
+            name: "test",
+            decimals: 0,
             icon: "Idena",
         }
-        tokens.push(token)
-        localStorage.setItem('tokens', JSON.stringify(tokens))
+
+            
+        // now wait until all promises are resolved
+        Promise.all([getSymbol(token_contract), getName(token_contract), getDecimals(token_contract)]).then((values) => {
+            console.log(values);
+            token.symbol = values[0];
+            token.name = values[1];
+            token.decimals = values[2];
+            console.log(token)
+            tokens.push(token)
+            localStorage.setItem('tokens', JSON.stringify(tokens))
+        });
+
     } else {
         return null
     }
@@ -33,11 +50,12 @@ export const saveTokenDemo = () => {
         if (tokens === null) {
             tokens = []
         }
+        let random_3nums = Math.floor(Math.random() * 1000)
         let token  = {
-            contract: '0x00000000',
-            symbol: 'PHOS 1',
+            contract: '0x00000000' + random_3nums,
+            symbol: 'PHO' + random_3nums,
 
-            name: 'Phonon',
+            name: 'Phaos Demo' + random_3nums,
             decimals: 18,
             icon: "Idena",
         }
@@ -49,7 +67,7 @@ export const saveTokenDemo = () => {
 }
 
 export const removeToken = (token_contract: string) => {
-    // array
+ 
     if(typeof window !== "undefined") {
         let tokens = JSON.parse(localStorage.getItem('tokens') || '[]')
         for (let i = 0; i < tokens.length; i++) {
@@ -75,9 +93,9 @@ export const getTokens = () => {
         if (tokens.length === 0) {
             tokens = [
                 {
-                    contract: '0x00000000',
-                    symbol: 'PHOS',
-                    name: 'Phonon',
+                    contract: '0xb96B66Fae5eA6EC84582C2d5712a2fC96BD4f2e9' ,
+                    symbol: 'PHO',
+                    name: 'Phaos',
                     decimals: 18,
                     icon: "Idena"
                 },
