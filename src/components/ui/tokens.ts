@@ -93,7 +93,7 @@ export const getTokens = () => {
         if (tokens.length === 0) {
             tokens = [
                 {
-                    contract: '0xb96B66Fae5eA6EC84582C2d5712a2fC96BD4f2e9' ,
+                    contract: '0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E' ,
                     symbol: 'PHO',
                     name: 'Phaos',
                     decimals: 18,

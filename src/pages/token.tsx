@@ -57,7 +57,7 @@ const AuthorProfilePage: NextPageWithLayout<
                 claimTx(address).then((txHash) => {
                     console.log(txHash);
                     // go to https://app.idena.io/dna/raw?tx=
-                   // window.location.href = 'https://app.idena.io/dna/raw?tx=' + txHash 
+                   window.location.href = 'https://app.idena.io/dna/raw?tx=' + txHash + '&callback_format=html&callback_url=' + "http://localhost:3000"
                 })
             }}
             

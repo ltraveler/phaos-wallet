@@ -28,9 +28,10 @@ export default function WalletCard() {
     setFirst(1);
     walletCurrencies.forEach(async (item, index) => {
       const balance = await getBalance(item.contract, address);
+      console.log(balance);
       walletCurrencies[index].balance = balance;
-      // balance to int
-      walletCurrencies[index].balance = parseInt(walletCurrencies[index].balance + 1  );
+      // parse float for pieChart
+      walletCurrencies[index].balance = parseFloat(balance);
       setWalletBalances(walletCurrencies);
     });
   }

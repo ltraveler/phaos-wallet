@@ -167,7 +167,9 @@ async function estimateGasCost(tokenAddr, args){
         "id": 1,
         "key": api_key
     };
+    console.log(callData)
     let response = await rpcCall(callData);
+    console.log("ESTIMATE GAS COST",response);
     return Number(response.result.txFee) + Number(response.result.gasCost) + 0.01;
 }
 
@@ -175,7 +177,7 @@ async function hasClaimed(address){
     let callData={
         "method": "contract_readMap",
         "params": [
-            "0xb96B66Fae5eA6EC84582C2d5712a2fC96BD4f2e9", // Our token address
+            "0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E", // Our token address
             "c:",
             address,
             "byte"
@@ -198,7 +200,7 @@ async function claimTx(address){
         "params": [{
             "type": 16,
             "from": address, // ADDRESS FROM IDENA AUTH SIGN IN
-            "to": "0xb96B66Fae5eA6EC84582C2d5712a2fC96BD4f2e9", // Our token address
+            "to": "0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E", // Our token address
             "amount": 0,
             "maxFee": 0.5,
             "payload": "0x0a05636c61696d", // claim method
@@ -217,8 +219,10 @@ async function claimTx(address){
     return response.result;
 }
 
-async function getTransferCall(tokenAddr, destination, amount, maxFee){ 
+async function getTransferCall(tokenAddr, destination, from, amount, maxFee){ 
     let bigAmount = addDecimals(amount, await getDecimals(tokenAddr));
+    console.log(tokenAddr, destination, amount, maxFee)
+    console.log(bigAmount)
     if (!maxFee) { // estimate fee if not provided
         let args = [{
             "index": 0,
@@ -236,7 +240,7 @@ async function getTransferCall(tokenAddr, destination, amount, maxFee){
         "method": "bcn_getRawTx",
         "params": [{
             "type": 16,
-            "from": "[PLACEHOLDER]", // ADDRESS FROM IDENA AUTH SIGN IN
+            "from": from, // ADDRESS FROM IDENA AUTH SIGN IN
             "to": tokenAddr,
             "amount": 0,
             "maxFee": maxFee,
@@ -247,6 +251,7 @@ async function getTransferCall(tokenAddr, destination, amount, maxFee){
         "id": 1,
         "key": api_key
     };
+    
     let response = await rpcCall(callData);
     if (response.error){
         console.log(response.error);

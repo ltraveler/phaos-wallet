@@ -5,6 +5,8 @@ import { Tab, TabPanels, TabPanel } from '@/components/ui/tab';
 import { ChevronDown } from '@/components/icons/chevron-down';
 // import { coinList } from '@/data/static/coin-list';
 import { getTokens, removeToken, saveToken,saveTokenDemo } from './tokens';
+import { getTransferCall } from './idena';
+
 // let coinList = getTokens();
 import Button from '@/components/ui/button';
 import { IconUSFlag } from '@/components/icons/icon-us-flag';
@@ -123,6 +125,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
             placeholder="0.0"
             inputMode="decimal"
             onChange={handleOnChangeFirstCoin}
+            id="amount-input"
             className="md w-full rounded-lg border-0 text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
           />
           </div>
@@ -140,6 +143,24 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
           shape="rounded"
           fullWidth={true}
           className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+          onClick={() => {
+            let token_contract = firstCoin.contract;
+            let destination = document.getElementById('wallet-address').value;
+            let amount = document.getElementById('amount-input').value;
+            console.log('TOKEN', token_contract);
+            console.log('DESTINATION', destination);
+            console.log('AMOUNT', amount);
+            let address = localStorage.getItem('address' || '');
+            try {
+              getTransferCall(token_contract, destination, address, amount).then((res) => {
+                console.log('RES', res);
+                window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "http://localhost:3000/tx/" //PHAOS.APP CHANGE
+              });
+            } catch (error) {
+              console.log('ERROR', error);
+              alert('Transaction failed, please check your inputs');
+            }
+          }}
         >
           Process
         </Button>
@@ -164,7 +185,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
           className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
           onClick={() => {
             saveToken(document.getElementById('contract-address').value);
-            //window.location.reload();
+            window.location.reload();
 
           }}
           
