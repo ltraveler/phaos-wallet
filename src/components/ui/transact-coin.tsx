@@ -3,7 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Tab, TabPanels, TabPanel } from '@/components/ui/tab';
 import { ChevronDown } from '@/components/icons/chevron-down';
-import { coinList } from '@/data/static/coin-list';
+// import { coinList } from '@/data/static/coin-list';
+import { getTokens, removeToken, saveToken,saveTokenDemo } from './tokens';
+// let coinList = getTokens();
 import Button from '@/components/ui/button';
 import { IconUSFlag } from '@/components/icons/icon-us-flag';
 import { useIsMounted } from '@/lib/hooks/use-is-mounted';
@@ -11,21 +13,14 @@ import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
 import CoinListBox from '@/components/ui/coin-listbox';
 
 const tabMenu = [
-  {
-    title: 'Buy',
-    path: 'Buy',
-  },
-  {
-    title: 'Sell',
-    path: 'Sell',
-  },
+
   {
     title: 'Send',
-    path: 'Send',
+    path: 'send',
   },
   {
-    title: 'Exchange',
-    path: 'Exchange',
+    title: 'Custom Token',
+    path: 'custom',
   },
 ];
 
@@ -71,12 +66,13 @@ type CoinTransactionProps = {
 
 function CoinTransaction({ transactionType }: CoinTransactionProps) {
   let [amount, setAmount] = useState<any>(0);
+  console.log('GET TOKENS', getTokens());
+  let coinList = getTokens();
   const [firstCoin, setFirstCoin] = useState(coinList[0]);
   const [secondCoin, setSecondCoin] = useState(coinList[1]);
   const [conversionRate, setConversionRate] = useState(0);
   const [exchangeRate, setExchangeRate] = useState(0);
   let decimalPattern = /^[0-9]*[.,]?[0-9]*$/;
-  let calcExRate = (firstCoin.price * amount) / secondCoin.price;
 
   const handleOnChangeFirstCoin = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -97,34 +93,12 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
     }
   };
 
-  useEffect(() => {
-    const price = amount * firstCoin.price;
-    setConversionRate(price || 0);
-  }, [amount, firstCoin.price]);
 
-  useEffect(() => {
-    setExchangeRate(calcExRate);
-  }, [amount, calcExRate]);
 
   return (
     <>
-      <div className="group relative flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-        <CoinListBox
-          coins={coinList}
-          selectedCoin={firstCoin}
-          setSelectedCoin={setFirstCoin}
-        />
 
-        <input
-          type="text"
-          value={amount}
-          placeholder="0.0"
-          inputMode="decimal"
-          onChange={handleOnChangeFirstCoin}
-          className="md w-full rounded-lg border-0 text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
-        />
-      </div>
-      <div className="relative mt-4 flex h-11 w-full items-center justify-between rounded-lg border border-gray-100 bg-body px-4 pl-3 text-sm text-gray-900 dark:border-gray-700 dark:bg-light-dark dark:text-white sm:h-13 sm:pl-4">
+      {/* <div className="relative mt-4 flex h-11 w-full items-center justify-between rounded-lg border border-gray-100 bg-body px-4 pl-3 text-sm text-gray-900 dark:border-gray-700 dark:bg-light-dark dark:text-white sm:h-13 sm:pl-4">
         <span className="relative flex items-center gap-3 font-medium">
           <IconUSFlag className="h-6 w-6 sm:h-[30px] sm:w-[30px]" /> USD
         </span>
@@ -132,15 +106,109 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
         <span className="text-sm sm:text-base">
           {conversionRate.toFixed(4)}
         </span>
-      </div>
+      </div> */}
+   
       {transactionType === 'send' && (
-        <div className="mt-4">
+        <div>
+          <div className="group relative flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+          <CoinListBox
+            coins={coinList}
+            selectedCoin={firstCoin}
+            setSelectedCoin={setFirstCoin}
+          />
+        
           <input
             type="text"
-            placeholder="Wallet address"
-            className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+            value={amount}
+            placeholder="0.0"
+            inputMode="decimal"
+            onChange={handleOnChangeFirstCoin}
+            className="md w-full rounded-lg border-0 text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
           />
+          </div>
+          <div className="mt-4">
+          
+            <input
+              type="text"
+              placeholder="Wallet address"
+              id="wallet-address"
+              className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+            />
+          </div>
+          <Button
+          size="large"
+          shape="rounded"
+          fullWidth={true}
+          className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+        >
+          Process
+        </Button>
         </div>
+
+      )}
+      {transactionType === 'custom' && (
+        <div>
+        <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+            <input
+              type="text"
+              placeholder="Contract Address"
+              id="contract-address"
+              className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+            />
+            
+        </div>
+          <Button
+          size="large"
+          shape="rounded"
+          fullWidth={true}
+          className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+          onClick={() => {
+            saveTokenDemo();
+            window.location.reload();
+
+          }}
+          
+        >
+          Add
+
+        </Button>
+        <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+          <CoinListBox
+              coins={coinList}
+              selectedCoin={firstCoin}
+              setSelectedCoin={setFirstCoin}
+            />
+          <input
+            type="text"
+            value={firstCoin.name}
+            placeholder="0.0"
+            inputMode="decimal"
+            onChange={handleOnChangeFirstCoin}
+            className="w-full rounded-lg border-0 text-right text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
+          />
+
+        </div>
+
+        <Button
+          size="large"
+          shape="rounded"
+          fullWidth={true}
+          className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+          onClick={() => {
+            removeToken(firstCoin.contract);
+            console.log(firstCoin.contract);
+            // reload
+            window.location.reload();
+          }}
+
+          
+        >
+          Remove
+        </Button>
+        </div>
+
+        
+        
       )}
       {transactionType === 'exchange' && (
         <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
@@ -161,14 +229,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
         </div>
       )}
 
-      <Button
-        size="large"
-        shape="rounded"
-        fullWidth={true}
-        className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-      >
-        Process
-      </Button>
+
     </>
   );
 }
@@ -234,18 +295,24 @@ export default function TransactCoin({
         </Tab.List>
         <span className="my-6 block h-[1px] border-b border-dashed border-b-gray-200 dark:border-b-gray-700"></span>
         <TabPanels>
+          
+          <TabPanel className="focus:outline-none">
+            <CoinTransaction transactionType="send" />
+          </TabPanel>
+          <TabPanel className="focus:outline-none">
+            <CoinTransaction transactionType="custom" />
+          </TabPanel>
           <TabPanel className="relative w-full focus:outline-none md:w-auto">
             <CoinTransaction transactionType="buy" />
           </TabPanel>
           <TabPanel className="focus:outline-none">
             <CoinTransaction transactionType="sell" />
           </TabPanel>
-          <TabPanel className="focus:outline-none">
-            <CoinTransaction transactionType="send" />
-          </TabPanel>
+
           <TabPanel className="focus:outline-none">
             <CoinTransaction transactionType="exchange" />
           </TabPanel>
+
         </TabPanels>
       </Tab.Group>
     </div>

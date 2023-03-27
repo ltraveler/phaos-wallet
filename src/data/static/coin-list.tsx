@@ -7,53 +7,29 @@ import { Usdc } from '@/components/icons/usdc';
 import { Cardano } from '@/components/icons/cardano';
 import { Doge } from '@/components/icons/doge';
 
-export const coinList = [
-  {
-    icon: <Bitcoin />,
-    code: 'BTC',
-    name: 'Bitcoin',
-    price: 19076.29,
-  },
-  {
-    icon: <Idena />,
-    code: 'iDNA',
-    name: 'Idena',
-    price: 28000.29,
-  },
-  {
-    icon: <Ethereum />,
-    code: 'ETH',
-    name: 'Ethereum',
-    price: 1053.28,
-  },
-  {
-    icon: <Tether />,
-    code: 'USDT',
-    name: 'Tether USD',
-    price: 0.999,
-  },
-  {
-    icon: <Bnb />,
-    code: 'BNB',
-    name: 'Binance Coin',
-    price: 214.96,
-  },
-  {
-    icon: <Usdc />,
-    code: 'USDC',
-    name: 'USD Coin',
-    price: 1.001,
-  },
-  {
-    icon: <Cardano />,
-    code: 'ADA',
-    name: 'Cardano',
-    price: 0.448,
-  },
-  {
-    icon: <Doge />,
-    code: 'DOGE',
-    name: 'Doge Coin',
-    price: 0.065,
-  },
-];
+
+
+// get icon from string
+export function getIconFromName(name: string) {
+  switch (name) {
+    case 'Bitcoin':
+      return <Bitcoin />;
+    case 'Idena':
+      return <Idena />;
+    case 'Ethereum':
+      return <Ethereum />;
+    case 'Tether':
+      return <Tether />;
+    case 'Binance Coin':
+      return <Bnb />;
+    case 'Cardano':
+      return <Cardano />;
+    case 'Dogecoin':
+      return <Doge />;
+    case 'USD Coin':
+      return <Usdc />;
+    default:
+      return <Bitcoin />;
+  }
+}
+

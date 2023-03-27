@@ -7,8 +7,9 @@ import TransactCoin from '@/components/ui/transact-coin';
 import PriceFeedSlider from '@/components/ui/live-price-feed';
 import { priceFeedData } from '@/data/static/price-feed';
 import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
+import { add } from 'lodash';
 //images
-import AuthorImage from '@/assets/images/author.jpg';
+// import AuthorImage from '@/assets/images/author.jpg';
 
 const topPoolsLimit = (breakpoint: string) => {
   switch (breakpoint) {
@@ -24,6 +25,10 @@ const topPoolsLimit = (breakpoint: string) => {
 export default function MinimalScreen() {
   const [limit, setLimit] = useState(4);
   const breakpoint = useBreakpoint();
+  // local
+  const address = localStorage.getItem('address');
+
+  // GET BALANCE  
   useEffect(() => {
     setLimit(topPoolsLimit(breakpoint));
   }, [breakpoint]);
@@ -34,27 +39,44 @@ export default function MinimalScreen() {
         description="1st Proof-of-Personhood Idena Wallet"
       />
       <div className="">
-        <PriceFeedSlider
+        {/* <PriceFeedSlider
           limit={4}
           priceFeeds={priceFeedData}
           gridClassName="grid-cols-1 gap-6 2xl:grid-cols-4"
-        />
+        /> */}
         <div className="mt-6 grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-12">
           <div className="flex items-center rounded-lg bg-white p-6 shadow-card dark:bg-light-dark md:col-span-1 md:h-[678px] lg:col-span-6 lg:h-[678px] xl:col-span-6 xl:row-start-1 xl:row-end-2 xl:h-auto 2xl:col-span-6 2xl:h-full 2xl:p-6 3xl:col-span-6 3xl:p-8">
             <div className="w-full">
               <div className="mb-8 h-full">
-                <Avatar
-                  image={AuthorImage}
-                  alt="Author"
-                  className="mx-auto mb-6"
-                  size="lg"
-                />
-                <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
-                  My Balance
-                </h3>
-                <div className="mb-7 text-center font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl 3xl:mb-8 3xl:text-[32px]">
-                  $10,86,000
-                </div>
+  
+                {address ? (
+                  <div>
+                    <Avatar
+                      alt="Author"
+                      className="mx-auto mb-6"
+                      size="lg"
+                    />
+                    <h6 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
+                      {address}
+                    </h6>
+                    <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
+                      My Balance
+                    </h3>
+                    <div className="mb-7 text-center font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl 3xl:mb-8 3xl:text-[32px]">
+                      ?
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+
+                    <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
+                      Connect your wallet
+                    </h3>
+                    <div className="mb-7 text-center font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl 3xl:mb-8 3xl:text-[32px]">
+                      0
+                    </div>
+                  </div>
+                )}
               </div>
               <span className="-mx-6 block border-t border-dashed border-t-gray-200 dark:border-t-gray-700 3xl:-mx-8" />
               <TransactCoin className="mt-6" />

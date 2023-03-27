@@ -1,6 +1,8 @@
 import type { CoinTypes } from '@/types';
 import { useState } from 'react';
-import { coinList } from '@/data/static/coin-list';
+// import { coinList } from '@/data/static/coin-list';
+import { getTokens } from './tokens';
+import { getIconFromName } from '@/data/static/coin-list';
 import { SearchIcon } from '@/components/icons/search';
 import { useModal } from '@/components/modal-views/context';
 
@@ -9,6 +11,8 @@ interface CoinSelectViewTypes {
 }
 
 export default function CoinSelectView({ onSelect }: CoinSelectViewTypes) {
+  let coinList = getTokens();
+      
   const { closeModal } = useModal();
   let [searchKeyword, setSearchKeyword] = useState('');
   let coinListData = coinList;
@@ -60,7 +64,7 @@ export default function CoinSelectView({ onSelect }: CoinSelectViewTypes) {
               onKeyDown={(event) => handleSelectedCoinOnKeyDown(event, item)}
               className="flex cursor-pointer items-center gap-2 py-3 px-6 outline-none hover:bg-gray-100 focus:bg-gray-200 dark:hover:bg-gray-800 dark:focus:bg-gray-900"
             >
-              {item.icon}
+              {getIconFromName(item.icon)}
               <span className="uppercase">{item.name}</span>
             </li>
           ))

@@ -9,16 +9,16 @@ export const menuItems = [
     icon: <HomeIcon />,
     href: routes.home,
   },
-  {
-    name: 'Swap',
-    icon: <ExchangeIcon />,
-    href: routes.swap,
-  },
-  {
-    name: 'Profile',
-    icon: <ProfileIcon />,
-    href: routes.profile,
-  },
+  // {
+  //   name: 'Swap',
+  //   icon: <ExchangeIcon />,
+  //   href: routes.swap,
+  // },
+  // {
+  //   name: 'Profile',
+  //   icon: <ProfileIcon />,
+  //   href: routes.profile,
+  // },
   {
     name: 'Help',
     icon: <HomeIcon />,

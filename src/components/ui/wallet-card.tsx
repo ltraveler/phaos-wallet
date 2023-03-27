@@ -3,44 +3,28 @@ import { useState } from 'react';
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 import { ArrowUp } from '@/components/icons/arrow-up';
 import { LongArrowUp } from '@/components/icons/long-arrow-up';
-import { walletCurrencies } from '@/data/static/wallet-currencies';
+// import { walletCurrencies } from '@/data/static/wallet-currencies';
+import { Idena } from '@/components/icons/idena';
+import { getTokens } from './tokens';
 
-const data = [
-  {
-    name: 'Bitcoin',
-    value: 400,
-    volume: '+12.5%',
-    isChangePositive: true,
-  },
-  {
-    name: 'Tether',
-    value: 300,
-    volume: '-8.47%',
-    isChangePositive: false,
-  },
-  {
-    name: 'Cardano',
-    value: 300,
-    volume: '+5.63%',
-    isChangePositive: true,
-  },
-  {
-    name: 'Binance Coin',
-    value: 15,
-    volume: '-3.02%',
-    isChangePositive: false,
-  },
-  {
-    name: 'Idena',
-    value: 2000,
-    volume: '+6.99%',
-    isChangePositive: true,
-  },
-];
+export const walletCurrencies =  getTokens();
+import { getIconFromName } from '@/data/static/coin-list';
+
+
+
+
+
 
 export default function WalletCard() {
   const [isChangePositive, setChangeStatus] = useState(true);
-  const [percentage, setPercentage] = useState(data[0].volume);
+  // get balances from getTokens
+  walletCurrencies.map((currency) => {
+    currency.balance = 123;
+  });
+  const [percentage, setPercentage] = useState(walletCurrencies[0].balance);
+  // set symbol
+  const [symbol, setSymbol] = useState(walletCurrencies[0].code);
+  const data = walletCurrencies;
   return (
     <div className="rounded-lg bg-white p-6 shadow-card dark:bg-light-dark sm:p-8">
       <h3 className="mb-6 text-base font-medium uppercase">Wallet</h3>
@@ -56,21 +40,24 @@ export default function WalletCard() {
               outerRadius={135}
               fill="#8884d8"
               paddingAngle={2}
-              dataKey="value"
+              dataKey="balance"
               onMouseMove={(data) => {
                 setChangeStatus(
-                  data.payload.payload && data.payload.payload.isChangePositive
+                  data.payload.payload && data.payload.payload.balance 
                 );
                 setPercentage(
-                  data.payload.payload && data.payload.payload.volume
+                  data.payload.payload && data.payload.payload.balance 
+                );
+                setSymbol(
+                  data.payload.payload && data.payload.payload.symbol
                 );
               }}
             >
               {walletCurrencies.map((currency) => (
                 <Cell
-                  key={`cell-${currency.code}`}
-                  fill={currency.color}
-                  stroke="transparent"
+                  key={`cell-${currency.symbol}`}
+                  fill={"#00BFFF"}
+                  stroke="none"
                 />
               ))}
             </Pie>
@@ -78,26 +65,17 @@ export default function WalletCard() {
           </PieChart>
         </ResponsiveContainer>
         <div className="absolute left-2/4 top-2/4 flex h-[156px] w-[156px] -translate-x-2/4 -translate-y-2/4 transform items-center justify-center rounded-full border border-dashed border-gray-400 bg-gray-50 dark:border-gray-600 dark:bg-gray-900">
-          <span
-            className={cn(
-              'flex items-center text-base font-medium',
-              isChangePositive ? 'text-green-500' : 'text-red-500'
-            )}
-          >
-            <LongArrowUp
-              className={cn('w-4', {
-                'rotate-180': !isChangePositive,
-              })}
-            />
-            {percentage}
-          </span>
+          {percentage} {symbol}
+
         </div>
       </div>
 
       <div className="mt-20">
         <div className="mb-5 flex items-center justify-between text-sm font-medium text-gray-400">
           <span>Coin Name</span>
-          <span>Volume</span>
+          <span>Sybmbol</span>
+
+          <span>Balance</span>
         </div>
         <ul className="grid gap-5">
           {walletCurrencies.map((currency) => (
@@ -106,24 +84,12 @@ export default function WalletCard() {
               className="grid grid-cols-[150px_repeat(2,1fr)] items-center justify-between text-sm font-medium text-gray-900 dark:text-white 2xl:grid-cols-[140px_repeat(2,1fr)] 3xl:grid-cols-[150px_repeat(2,1fr)]"
             >
               <span className="flex items-center gap-2.5 whitespace-nowrap">
-                {currency.icon}
+                {getIconFromName(currency.icon)}
                 {currency.name}
               </span>
-              <span className="text-center">{currency.code}</span>
-              <span
-                className={cn(
-                  'flex items-center justify-end',
-                  currency.isChangePositive ? 'text-green-500' : 'text-red-500'
-                )}
-              >
-                <span
-                  className={cn('ltr:mr-2 rtl:ml-2', {
-                    'rotate-180': !currency.isChangePositive,
-                  })}
-                >
-                  <ArrowUp />
-                </span>
-                {currency.volume}
+              <span className="text-center">{currency.symbol}</span>
+              <span className="text-right">
+                {currency.balance}
               </span>
             </li>
           ))}

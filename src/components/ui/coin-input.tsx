@@ -6,7 +6,9 @@ import cn from 'classnames';
 import { ChevronDown } from '@/components/icons/chevron-down';
 import { useClickAway } from '@/lib/hooks/use-click-away';
 import { useLockBodyScroll } from '@/lib/hooks/use-lock-body-scroll';
-import { coinList } from '@/data/static/coin-list';
+// import { coinList } from '@/data/static/coin-list';
+import { getTokens } from './tokens';
+import { getIconFromName } from '@/data/static/coin-list';
 // dynamic import
 const CoinSelectView = dynamic(
   () => import('@/components/ui/coin-select-view')
@@ -30,6 +32,7 @@ export default function CoinInput({
   className,
   ...rest
 }: CoinInputTypes) {
+  let coinList = getTokens();
   let [value, setValue] = useState('');
   let [selectedCoin, setSelectedCoin] = useState(coinList[defaultCoinIndex]);
   let [visibleCoinList, setVisibleCoinList] = useState(false);

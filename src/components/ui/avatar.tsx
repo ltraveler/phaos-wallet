@@ -3,7 +3,6 @@ import Image from '@/components/ui/image';
 import { StaticImageData } from 'next/image';
 
 interface AvatarProps {
-  image: StaticImageData;
   alt: string;
   className?: string;
   size?: SizeNames;
@@ -31,7 +30,6 @@ const shapes: Record<ShapeNames, string[]> = {
 };
 
 function Avatar({
-  image,
   alt,
   className,
   size = 'md',
@@ -40,6 +38,7 @@ function Avatar({
   height,
 }: AvatarProps) {
   const sizeClassNames = sizes[size];
+  const address = localStorage.getItem('address');
   return (
     <figure
       className={cn(
@@ -52,16 +51,16 @@ function Avatar({
       {shape === 'circle' ? (
         size === 'xs' || 'sm' ? (
           <Image
-            src={image}
+            src={ "https://robohash.org/" + address +  "?set=set4"  + "?width=200" + "?height=200"}
             alt={alt}
-            width={width}
-            height={height}
+            width={200}
+            height={200}
             priority
             className="rounded-full"
           />
         ) : (
           <Image
-            src={image}
+            src={ "https://robohash.org/" + address +  "?set=set4"  + "?width=200" + "?height=200"}
             alt={alt}
             width={width}
             height={height}

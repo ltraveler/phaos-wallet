@@ -17,5 +17,21 @@ const nextConfig = withPWA({
       ignoreDuringBuilds: true,
     },
   }),
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'robohash.org',
+        port: '',
+        pathname: '/:id',
+      },
+    ],
+    domains: ['robohash.org'],
+
+  },
 });
+
+
+
+
 module.exports = nextConfig;

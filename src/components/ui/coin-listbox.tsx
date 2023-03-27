@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { Listbox } from '@/components/ui/listbox';
 import { ChevronDown } from '@/components/icons/chevron-down';
 import { Transition } from '@/components/ui/transition';
+import { getIconFromName } from '@/data/static/coin-list';
 
 type CoinListBoxProps = {
   coins: CoinTypes[];
@@ -24,7 +25,7 @@ export default function CoinListBox({
         <Listbox.Button className="flex h-11 w-full items-center justify-between whitespace-nowrap border-gray-100 px-4 pl-3 text-sm text-gray-900 ltr:rounded-tl-lg ltr:rounded-bl-lg ltr:border-r rtl:border-l dark:border-gray-700 dark:bg-light-dark dark:text-white sm:h-13 sm:pl-4">
           <div className="flex items-center gap-3 font-medium ltr:mr-2 rtl:ml-2">
             <span className="sm:[&>*]:h-[30px] sm:[&>*]:w-[30px]">
-              {selectedCoin.icon}
+              {getIconFromName(selectedCoin.icon)}
             </span>
             {selectedCoin.code}
           </div>
@@ -47,7 +48,7 @@ export default function CoinListBox({
                         : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   >
-                    {coin.icon}
+                    {getIconFromName(coin.icon)}
                     {coin.name}
                   </span>
                 )}

@@ -13,10 +13,24 @@ import { ChevronDown } from '@/components/icons/chevron-down';
 import { LongArrowRight } from '@/components/icons/long-arrow-right';
 import { LongArrowLeft } from '@/components/icons/long-arrow-left';
 import { LinkIcon } from '@/components/icons/link-icon';
-import { TransactionData } from '@/data/static/transaction-data';
+// import { TransactionData } from '@/data/static/transaction-data';
 import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
 import { useIsMounted } from '@/lib/hooks/use-is-mounted';
 
+const TransactionData = [
+  {
+    id: 0,
+    transactionType: 'Buy',
+    createdAt: '8 february 2023',
+    symbol: 'iDNA',
+    status: 'Pending',
+    address: '0x6390e03ec...',
+    amount: {
+      balance: '0.2231345',
+      usdBalance: '11,032.24',
+    },
+  }
+];
 const COLUMNS = [
   {
     Header: 'ID',
