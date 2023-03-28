@@ -38,7 +38,7 @@ const Tx = () => {
          
         useEffect(() => {
           setTx(tx);
-          setInterval(() => {
+          let refreshIntervalId = setInterval(() => {
             fetch('https://api.idena.io/api/Transaction/' + tx)
             .then(response => response.json())
             .then(data => {
@@ -47,7 +47,8 @@ const Tx = () => {
                     setStatus('Success ');
                     // redirect to home page
                     router.push('/');
-                  
+                    // break out of loop
+                    clearInterval(refreshIntervalId);                  
                 }
                 else {
                     setStatus('Pending');
