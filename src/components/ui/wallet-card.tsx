@@ -4,22 +4,19 @@ import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 import { ArrowUp } from '@/components/icons/arrow-up';
 import { LongArrowUp } from '@/components/icons/long-arrow-up';
 // import { walletCurrencies } from '@/data/static/wallet-currencies';
-import { Idena } from '@/components/icons/idena';
+import { Phaos } from '@/components/icons/phaos';
 import { getTokens } from './tokens';
 
-import { getBalance } from './idena'
+import { getBalance } from './idena';
 
-export const walletCurrencies =  getTokens();
+export const walletCurrencies = getTokens();
 import { getIconFromName } from '@/data/static/coin-list';
-
-
-
-
-
 
 export default function WalletCard() {
   const [isChangePositive, setChangeStatus] = useState(true);
-  const address = localStorage.getItem('address') || '0x0000000000000000000000000000000000000000';
+  const address =
+    localStorage.getItem('address') ||
+    '0x0000000000000000000000000000000000000000';
   const [walletBalances, setWalletBalances] = useState([]);
   const [first, setFirst] = useState(0);
 
@@ -37,7 +34,7 @@ export default function WalletCard() {
   }
   console.log(walletCurrencies);
   const [balance, setBalance] = useState(0);
-  
+
   const [percentage, setPercentage] = useState(walletCurrencies[0].balance);
   // set symbol
   const [symbol, setSymbol] = useState(walletCurrencies[0].code);
@@ -60,20 +57,18 @@ export default function WalletCard() {
               dataKey="balance"
               onMouseMove={(data) => {
                 setChangeStatus(
-                  data.payload.payload && data.payload.payload.balance 
+                  data.payload.payload && data.payload.payload.balance
                 );
                 setPercentage(
-                  data.payload.payload && data.payload.payload.balance 
+                  data.payload.payload && data.payload.payload.balance
                 );
-                setSymbol(
-                  data.payload.payload && data.payload.payload.symbol
-                );
+                setSymbol(data.payload.payload && data.payload.payload.symbol);
               }}
             >
               {walletCurrencies.map((currency) => (
                 <Cell
                   key={`cell-${currency.symbol}`}
-                  fill={"#00BFFF"}
+                  fill={'#00BFFF'}
                   stroke="none"
                 />
               ))}
@@ -83,7 +78,6 @@ export default function WalletCard() {
         </ResponsiveContainer>
         <div className="absolute left-2/4 top-2/4 flex h-[156px] w-[156px] -translate-x-2/4 -translate-y-2/4 transform items-center justify-center rounded-full border border-dashed border-gray-400 bg-gray-50 dark:border-gray-600 dark:bg-gray-900">
           {percentage} {symbol}
-
         </div>
       </div>
       <div className="mt-20">
@@ -104,9 +98,7 @@ export default function WalletCard() {
                 {currency.name}
               </span>
               <span className="text-center">{currency.symbol}</span>
-              <span className="text-right">
-                {currency.balance}
-              </span>
+              <span className="text-right">{currency.balance}</span>
             </li>
           ))}
         </ul>

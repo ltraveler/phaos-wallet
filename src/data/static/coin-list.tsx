@@ -1,13 +1,12 @@
 import { Bitcoin } from '@/components/icons/bitcoin';
 import { Idena } from '@/components/icons/idena';
+import { Phaos } from '@/components/icons/phaos';
 import { Ethereum } from '@/components/icons/ethereum';
 import { Tether } from '@/components/icons/tether';
 import { Bnb } from '@/components/icons/bnb';
 import { Usdc } from '@/components/icons/usdc';
 import { Cardano } from '@/components/icons/cardano';
 import { Doge } from '@/components/icons/doge';
-
-
 
 // get icon from string
 export function getIconFromName(name: string) {
@@ -16,6 +15,8 @@ export function getIconFromName(name: string) {
       return <Bitcoin />;
     case 'Idena':
       return <Idena />;
+    case 'Phaos':
+      return <Phaos />;
     case 'Ethereum':
       return <Ethereum />;
     case 'Tether':
@@ -29,7 +30,6 @@ export function getIconFromName(name: string) {
     case 'USD Coin':
       return <Usdc />;
     default:
-      return <Bitcoin />;
+      return <Phaos />;
   }
 }
-
