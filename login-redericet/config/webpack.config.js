@@ -266,9 +266,6 @@ module.exports = function (webpackEnv) {
         new CssMinimizerPlugin()
       ]
     },
-    images: {
-      domains: ['https://robohash.org']
-    },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
       // We placed these paths second because we want `node_modules` to "win"
