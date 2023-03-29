@@ -1,5 +1,5 @@
-let url = 'https://node.sharedidena.xyz';
-let api_key = 'wallet-access-key';
+let url = process.env.NEXT_PUBLIC_SHARED_API_URL;
+let api_key = process.env.NEXT_PUBLIC_SHARED_API_KEY;
 
 function hexToDec(hexString) {
   let num = parseInt(hexString, 16);
