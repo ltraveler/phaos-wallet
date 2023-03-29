@@ -5,7 +5,7 @@ import { Tab, TabPanels, TabPanel } from '@/components/ui/tab';
 import { ChevronDown } from '@/components/icons/chevron-down';
 // import { coinList } from '@/data/static/coin-list';
 import { getTokens, removeToken, saveToken,saveTokenDemo,saveTokenInfo } from '@/components/idena/tokens';
-import { getTransferCall } from '../idena/idena';
+import { getTransferCall,getTransferCallInfo } from '../idena/idena';
 
 // let coinList = getTokens();
 import Button from '@/components/ui/button';
@@ -151,15 +151,30 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
             console.log('TOKEN', token_contract);
             console.log('DESTINATION', destination);
             console.log('AMOUNT', amount);
+            console.log('DECIMALS', firstCoin.decimals);
+            console.log('TYPE', firstCoin.type);
             let address = localStorage.getItem('address' || '');
-            try {
-              getTransferCall(token_contract, destination, address, amount).then((res) => {
-                console.log('RES', res);
-                window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "http://localhost:3000/tx/" //PHAOS.APP CHANGE
-              });
-            } catch (error) {
-              console.log('ERROR', error);
-              alert('Transaction failed, please check your inputs');
+            if (firstCoin.type === "info") {
+              console.log('INFO', token_contract, destination, address, amount,firstCoin.decimals);
+              try {
+                getTransferCallInfo(token_contract, destination, address, amount,firstCoin.decimals).then((res) => {
+                  console.log('RES', res);
+                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "http://localhost:3000/tx/" //PHAOS.APP CHANGE
+                });
+              } catch (error) {
+                console.log('ERROR', error);
+                alert('Transaction failed, please check your inputs');
+              }
+            } else {
+              try {
+                getTransferCall(token_contract, destination, address, amount).then((res) => {
+                  console.log('RES', res);
+                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "http://localhost:3000/tx/" //PHAOS.APP CHANGE
+                });
+              } catch (error) {
+                console.log('ERROR', error);
+                alert('Transaction failed, please check your inputs');
+              }
             }
           }}
         >

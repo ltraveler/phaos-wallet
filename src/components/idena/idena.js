@@ -25,6 +25,7 @@ function formatString(string, decimals){
 }
 
 function addDecimals(string, decimals){
+    console.log(string, decimals)
     let a = string.indexOf('.');
     if (a==-1) return BigInt(string)*(10n**BigInt(decimals));
     let len = Number(decimals) - string.slice(a+1).length;
@@ -124,6 +125,8 @@ async function getDecimals(tokenAddr){
 }
 
 async function getBalance(tokenAddr, address){
+    // wait 1 sec
+    new Promise(resolve => setTimeout(resolve, 1000));
     let decimals = await getDecimals(tokenAddr);
     let callData={
     "method": "contract_estimateCall", 
@@ -152,9 +155,11 @@ async function getBalance(tokenAddr, address){
         console.log("0")
         return "0";
     }
-    //console.log(formatString(balance.toString(), decimals))
+
     return formatString(balance.toString(), decimals);
 }
+
+
 
 async function estimateGasCost(tokenAddr, args){
     let callData={
@@ -170,7 +175,7 @@ async function estimateGasCost(tokenAddr, args){
     console.log(callData)
     let response = await rpcCall(callData);
     console.log("ESTIMATE GAS COST",response);
-    return Number(response.result.txFee) + Number(response.result.gasCost) + 0.01;
+    return Number(response.result.txFee) + Number(response.result.gasCost) + 0.02;
 }
 
 async function hasClaimed(address){
@@ -261,6 +266,45 @@ async function getTransferCall(tokenAddr, destination, from, amount, maxFee){
     return response.result;
 }
 
+async function getTransferCallInfo(tokenAddr, destination, from, amount, Decimals){
+    let bigAmount = addDecimals(amount, Decimals);
+    console.log(tokenAddr, destination, amount)
+    console.log(bigAmount)
+    let args = [{
+        "index": 0,
+        "format": "hex",
+        "value": destination
+        },
+        {
+        "index": 1,
+        "format": "bigint",
+        "value": bigAmount.toString()
+    }];
+    let maxFee = await estimateGasCost(tokenAddr,args);
+    let callData={
+        "method": "bcn_getRawTx",
+        "params": [{
+            "type": 16,
+            "from": from, // ADDRESS FROM IDENA AUTH SIGN IN
+            "to": tokenAddr,
+            "amount": 0,
+            "maxFee": maxFee,
+            "payload": transferPayload(destination, bigAmount),
+            "useProto": true
+        }
+        ],
+        "id": 1,
+        "key": api_key
+    };
+    
+    let response = await rpcCall(callData);
+    if (response.error){
+        console.log(response.error);
+        return;
+    }
+    //console.log(response.result);
+    return response.result;
+}
 function transferPayload(dest, amount){
     dest = dest.slice(2);
     let payload = "0x0a";
@@ -289,5 +333,6 @@ module.exports = {
     getName,
     getDecimals,
     getTransferCall,
+    getTransferCallInfo,
     claimTx
 }

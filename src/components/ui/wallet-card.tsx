@@ -8,7 +8,7 @@ import { Phaos } from '@/components/icons/phaos';
 import { getTokens, removeToken, saveToken,saveTokenDemo } from '@/components/idena/tokens';
 
 import { getBalance } from '../idena/idena';
-
+import { useEffect } from 'react';
 export const walletCurrencies = getTokens();
 import { getIconFromName } from '@/data/static/coin-list';
 
@@ -17,28 +17,33 @@ export default function WalletCard() {
   const address =
     localStorage.getItem('address') ||
     '0x0000000000000000000000000000000000000000';
-  const [walletBalances, setWalletBalances] = useState([]);
+  let [walletBalances, setWalletBalances] = useState([]);
   const [first, setFirst] = useState(0);
-  const [loaded, setLoaded] = useState(0);
+
   // get balances from getTokens
   if (first === 0) {
     setFirst(1);
-    setLoaded(1);
 
     walletCurrencies.forEach(async (item, index) => {
 
-      const balance = await getBalance(item.contract, address);
-      console.log(balance);
-      walletCurrencies[index].balance = balance;
-      // parse float for pieChart
-      walletCurrencies[index].balance = parseFloat(balance);
-      setWalletBalances(walletCurrencies);
-      // wait
-      await new Promise((r) => setTimeout(r, 500));
+        console.log("updating balance for: " + item.name);
+
+        // const balance = await getBalance(item.contract, address);
+        const balance = await getBalance(item.contract, address);
+
+        console.log(balance);
+        walletCurrencies[index].balance = balance;
+        walletCurrencies[index].balance = parseFloat(balance);
+        // 1 sec
+        new Promise((resolve) => setTimeout(resolve, 1000));
+        setWalletBalances(walletCurrencies);
+      
+     
     });
-    // wait until all have been loaded
-    
+
+
   }
+
   console.log(walletCurrencies);
   const [balance, setBalance] = useState(0);
 
@@ -87,25 +92,10 @@ export default function WalletCard() {
           {percentage} {symbol}
         </div>
       </div>
-      {
-        loaded !== 1 ? (
-          <div className="mt-6 flex items-center justify-between">
-            <p>
-              Loading balances <span className="text-blue-500">...</span>
-            </p>
-            <small>If balances are not loading, please refresh the page.</small>
 
-          </div>
-        ) : (
-          <p>
-
-          </p>
-        )
-      }
       <div className="mt-20">
         <div className="mb-5 flex items-center justify-between text-sm font-medium text-gray-400">
           <span>Token Name</span>
-          <span>Sybmbol</span>
 
           <span>Balance</span>
         </div>
@@ -119,14 +109,9 @@ export default function WalletCard() {
                 {getIconFromName(currency.icon)}
                 {currency.name}
               </span>
-              <span className="text-center">{currency.symbol}</span>
-              <span className="text-right"> {
-                currency.balance === undefined ? (
-                  <span className="text-blue-500">...</span>
-                ) : (
-                  <span>{currency.balance}</span>
-                )
-              }
+              <span className="text-centr">{currency.symbol}</span>
+              <span className="text-right"> 
+                {currency.balance} {currency.symbol}
               </span>
             </li>
           ))}

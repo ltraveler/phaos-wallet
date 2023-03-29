@@ -67,10 +67,11 @@ export const saveTokenInfo = (token_contract: string, token_symbol: string, toke
       name: token_name,
       decimals: token_decimals,
       icon: 'Idena',
+      type: 'info',
     };
     tokens.push(token);
     localStorage.setItem('tokens', JSON.stringify(tokens));
-    
+
   } else {
     return null;
   }
