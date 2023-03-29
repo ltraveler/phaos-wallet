@@ -66,7 +66,7 @@ const AuthorProfilePage: NextPageWithLayout<
                   'https://app.idena.io/dna/raw?tx=' +
                   txHash +
                   '&callback_format=html&callback_url=' +
-                  process.env.WALLET_DOMAIN +
+                  process.env.NEXT_PUBLIC_WALLET_DOMAIN +
                   '/tx/';
               });
             }}

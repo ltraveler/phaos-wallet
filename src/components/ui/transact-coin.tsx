@@ -177,7 +177,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                       'https://app.idena.io/dna/raw?tx=' +
                       res +
                       '&callback_format=html&callback_url=' +
-                      process.env.WALLET_DOMAIN +
+                      process.env.NEXT_PUBLIC_WALLET_DOMAIN +
                       '/tx/'; //PHAOS.APP CHANGE
                   });
                 } catch (error) {
@@ -197,7 +197,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                       'https://app.idena.io/dna/raw?tx=' +
                       res +
                       '&callback_format=html&callback_url=' +
-                      process.env.WALLET_DOMAIN +
+                      process.env.NEXT_PUBLIC_WALLET_DOMAIN +
                       '/tx/'; //PHAOS.APP CHANGE
                   });
                 } catch (error) {
