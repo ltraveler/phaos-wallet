@@ -1,7 +1,7 @@
 import type { CoinTypes } from '@/types';
 import { useState } from 'react';
 // import { coinList } from '@/data/static/coin-list';
-import { getTokens } from './tokens';
+import { getTokens } from '@/components/idena/tokens';
 import { getIconFromName } from '@/data/static/coin-list';
 import { SearchIcon } from '@/components/icons/search';
 import { useModal } from '@/components/modal-views/context';
@@ -12,7 +12,7 @@ interface CoinSelectViewTypes {
 
 export default function CoinSelectView({ onSelect }: CoinSelectViewTypes) {
   let coinList = getTokens();
-      
+
   const { closeModal } = useModal();
   let [searchKeyword, setSearchKeyword] = useState('');
   let coinListData = coinList;

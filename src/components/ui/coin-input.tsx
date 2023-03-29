@@ -7,7 +7,7 @@ import { ChevronDown } from '@/components/icons/chevron-down';
 import { useClickAway } from '@/lib/hooks/use-click-away';
 import { useLockBodyScroll } from '@/lib/hooks/use-lock-body-scroll';
 // import { coinList } from '@/data/static/coin-list';
-import { getTokens } from './tokens';
+import { getTokens } from '@/components/idena/tokens';
 import { getIconFromName } from '@/data/static/coin-list';
 // dynamic import
 const CoinSelectView = dynamic(
