@@ -24,7 +24,6 @@ export default function WalletConnect({
       return adr;
     }
     return '';
-
   }
   function signOut() {
     localStorage.removeItem('address');
@@ -35,23 +34,22 @@ export default function WalletConnect({
   return (
     <>
       {address === '' ? (
-            <Button
-            // go to localhost:3001
-                onClick={() => window.location.href = 'https://phaos-wallet-login.vercel.app/'}
-                className={cn('shadow-main hover:shadow-large', btnClassName)}
-            >
-                CONNECT
-            </Button>
+        <Button
+          // go to localhost:3001
+          onClick={() => (window.location.href = 'process.env.AUTH_DOMAIN')}
+          className={cn('shadow-main hover:shadow-large', btnClassName)}
+        >
+          CONNECT
+        </Button>
       ) : (
         <Button
-        onClick={() => signOut()}
-        className={cn('shadow-main hover:shadow-large', btnClassName)}
-      >
-        DISCONNECT
-      </Button>
+          onClick={() => signOut()}
+          className={cn('shadow-main hover:shadow-large', btnClassName)}
+        >
+          DISCONNECT
+        </Button>
       )}
 
-        
       {/* {address ? (
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
           <div className="relative flex-shrink-0">

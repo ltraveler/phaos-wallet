@@ -4,8 +4,14 @@ import { motion } from 'framer-motion';
 import { Tab, TabPanels, TabPanel } from '@/components/ui/tab';
 import { ChevronDown } from '@/components/icons/chevron-down';
 // import { coinList } from '@/data/static/coin-list';
-import { getTokens, removeToken, saveToken,saveTokenDemo,saveTokenInfo } from '@/components/idena/tokens';
-import { getTransferCall,getTransferCallInfo } from '../idena/idena';
+import {
+  getTokens,
+  removeToken,
+  saveToken,
+  saveTokenDemo,
+  saveTokenInfo,
+} from '@/components/idena/tokens';
+import { getTransferCall, getTransferCallInfo } from '../idena/idena';
 
 // let coinList = getTokens();
 import Button from '@/components/ui/button';
@@ -15,7 +21,6 @@ import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
 import CoinListBox from '@/components/ui/coin-listbox';
 
 const tabMenu = [
-
   {
     title: 'Send',
     path: 'send',
@@ -96,11 +101,8 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
     }
   };
 
-
-
   return (
     <>
-
       {/* <div className="relative mt-4 flex h-11 w-full items-center justify-between rounded-lg border border-gray-100 bg-body px-4 pl-3 text-sm text-gray-900 dark:border-gray-700 dark:bg-light-dark dark:text-white sm:h-13 sm:pl-4">
         <span className="relative flex items-center gap-3 font-medium">
           <IconUSFlag className="h-6 w-6 sm:h-[30px] sm:w-[30px]" /> USD
@@ -110,28 +112,27 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
           {conversionRate.toFixed(4)}
         </span>
       </div> */}
-   
+
       {transactionType === 'send' && (
         <div>
           <div className="group relative flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-          <CoinListBox
-            coins={coinList}
-            selectedCoin={firstCoin}
-            setSelectedCoin={setFirstCoin}
-          />
-        
-          <input
-            type="text"
-            value={amount}
-            placeholder="0.0"
-            inputMode="decimal"
-            onChange={handleOnChangeFirstCoin}
-            id="amount-input"
-            className="md w-full rounded-lg border-0 text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
-          />
+            <CoinListBox
+              coins={coinList}
+              selectedCoin={firstCoin}
+              setSelectedCoin={setFirstCoin}
+            />
+
+            <input
+              type="text"
+              value={amount}
+              placeholder="0.0"
+              inputMode="decimal"
+              onChange={handleOnChangeFirstCoin}
+              id="amount-input"
+              className="md w-full rounded-lg border-0 text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
+            />
           </div>
           <div className="mt-4">
-          
             <input
               type="text"
               placeholder="Wallet address"
@@ -140,63 +141,87 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
             />
           </div>
           <Button
-          size="large"
-          shape="rounded"
-          fullWidth={true}
-          className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-          onClick={() => {
-            let token_contract = firstCoin.contract;
-            let destination = document.getElementById('wallet-address').value;
-            let amount = document.getElementById('amount-input').value;
-            console.log('TOKEN', token_contract);
-            console.log('DESTINATION', destination);
-            console.log('AMOUNT', amount);
-            console.log('DECIMALS', firstCoin.decimals);
-            console.log('TYPE', firstCoin.type);
-            let address = localStorage.getItem('address' || '');
-            if (firstCoin.type === "info") {
-              console.log('INFO', token_contract, destination, address, amount,firstCoin.decimals);
-              try {
-                getTransferCallInfo(token_contract, destination, address, amount,firstCoin.decimals).then((res) => {
-                  console.log('RES', res);
-                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "https://www.phaos.app/tx/" //PHAOS.APP CHANGE
-                });
-              } catch (error) {
-                console.log('ERROR', error);
-                alert('Transaction failed, please check your inputs');
+            size="large"
+            shape="rounded"
+            fullWidth={true}
+            className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+            onClick={() => {
+              let token_contract = firstCoin.contract;
+              let destination = document.getElementById('wallet-address').value;
+              let amount = document.getElementById('amount-input').value;
+              console.log('TOKEN', token_contract);
+              console.log('DESTINATION', destination);
+              console.log('AMOUNT', amount);
+              console.log('DECIMALS', firstCoin.decimals);
+              console.log('TYPE', firstCoin.type);
+              let address = localStorage.getItem('address' || '');
+              if (firstCoin.type === 'info') {
+                console.log(
+                  'INFO',
+                  token_contract,
+                  destination,
+                  address,
+                  amount,
+                  firstCoin.decimals
+                );
+                try {
+                  getTransferCallInfo(
+                    token_contract,
+                    destination,
+                    address,
+                    amount,
+                    firstCoin.decimals
+                  ).then((res) => {
+                    console.log('RES', res);
+                    window.location.href =
+                      'https://app.idena.io/dna/raw?tx=' +
+                      res +
+                      '&callback_format=html&callback_url=' +
+                      +'process.env.WALLET_DOMAIN' +
+                      '/tx/'; //PHAOS.APP CHANGE
+                  });
+                } catch (error) {
+                  console.log('ERROR', error);
+                  alert('Transaction failed, please check your inputs');
+                }
+              } else {
+                try {
+                  getTransferCall(
+                    token_contract,
+                    destination,
+                    address,
+                    amount
+                  ).then((res) => {
+                    console.log('RES', res);
+                    window.location.href =
+                      'https://app.idena.io/dna/raw?tx=' +
+                      res +
+                      '&callback_format=html&callback_url=' +
+                      'process.env.WALLET_DOMAIN' +
+                      '/tx/'; //PHAOS.APP CHANGE
+                  });
+                } catch (error) {
+                  console.log('ERROR', error);
+                  alert('Transaction failed, please check your inputs');
+                }
               }
-            } else {
-              try {
-                getTransferCall(token_contract, destination, address, amount).then((res) => {
-                  console.log('RES', res);
-                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "https://www.phaos.app/tx/" //PHAOS.APP CHANGE
-                });
-              } catch (error) {
-                console.log('ERROR', error);
-                alert('Transaction failed, please check your inputs');
-              }
-            }
-          }}
-        >
-          Process
-        </Button>
+            }}
+          >
+            Process
+          </Button>
         </div>
-
       )}
       {transactionType === 'custom' && (
         <div>
-        {
-          customType === 0 ? (
+          {customType === 0 ? (
             <div>
               <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-                  <input
-                    type="text"
-                    placeholder="Contract Address"
-                    id="contract-address"
-                    className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                  />
-
-                  
+                <input
+                  type="text"
+                  placeholder="Contract Address"
+                  id="contract-address"
+                  className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                />
               </div>
               <Button
                 size="small"
@@ -204,13 +229,12 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 fullWidth={false}
                 className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
                 onClick={() => {
-                  setCustomType(1)
+                  setCustomType(1);
                 }}
-                
               >
                 Non IRC20
-                </Button>
-                <Button
+              </Button>
+              <Button
                 size="large"
                 shape="rounded"
                 fullWidth={true}
@@ -221,24 +245,20 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                   setTimeout(function () {
                     window.location.reload();
                   }, 1000);
-
                 }}
-                
               >
                 Add
-
               </Button>
             </div>
           ) : (
             <div>
               <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-                  <input
-                    type="text"
-                    placeholder="Contract Address"
-                    id="contract-address"
-                    className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                  />
-
+                <input
+                  type="text"
+                  placeholder="Contract Address"
+                  id="contract-address"
+                  className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                />
               </div>
               <Button
                 size="small"
@@ -246,93 +266,87 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 fullWidth={false}
                 className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
                 onClick={() => {
-                  setCustomType(0)
+                  setCustomType(0);
                 }}
-                
               >
                 Non IRC20
-                </Button>
-              <div className="group relative mt-4 flex rounded-lg  transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600 margin: 10 auto;">
+              </Button>
+              <div className="margin: 10 auto; group relative  mt-4 flex rounded-lg transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
                 <input
-                        type="text"
-                        placeholder="Token Name"
-                        id="token-name"
-                        className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                      />
-                  
-                  <input
-                        type="text"
-                        placeholder="Token Symbol"
-                        id="token-symbol"
-                        className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                      />
-                  <input
-                        type="number"
-                        placeholder="Token Decimals"
-                        id="token-decimals"
-                        className="h-11 w-full border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                      />
+                  type="text"
+                  placeholder="Token Name"
+                  id="token-name"
+                  className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Token Symbol"
+                  id="token-symbol"
+                  className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                />
+                <input
+                  type="number"
+                  placeholder="Token Decimals"
+                  id="token-decimals"
+                  className="h-11 w-full border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                />
               </div>
 
-                <Button
+              <Button
                 size="large"
                 shape="rounded"
                 fullWidth={true}
                 className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
                 onClick={() => {
                   // oken_contract: string, token_symbol: string, token_name: string, token_decimals: number
-                  saveTokenInfo(document.getElementById('contract-address').value, document.getElementById('token-symbol').value, document.getElementById('token-name').value, document.getElementById('token-decimals').value);
+                  saveTokenInfo(
+                    document.getElementById('contract-address').value,
+                    document.getElementById('token-symbol').value,
+                    document.getElementById('token-name').value,
+                    document.getElementById('token-decimals').value
+                  );
                   // wait for 1 second
                   setTimeout(function () {
                     window.location.reload();
                   }, 1000);
-
                 }}
-                
               >
                 Add
-
               </Button>
             </div>
-          )
-        }
-        <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-          <CoinListBox
+          )}
+          <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+            <CoinListBox
               coins={coinList}
               selectedCoin={firstCoin}
               setSelectedCoin={setFirstCoin}
             />
-          <input
-            type="text"
-            value={firstCoin.name}
-            placeholder="0.0"
-            inputMode="decimal"
-            onChange={handleOnChangeFirstCoin}
-            className="w-full rounded-lg border-0 text-right text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
-          />
+            <input
+              type="text"
+              value={firstCoin.name}
+              placeholder="0.0"
+              inputMode="decimal"
+              onChange={handleOnChangeFirstCoin}
+              className="w-full rounded-lg border-0 text-right text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
+            />
+          </div>
 
+          <Button
+            size="large"
+            shape="rounded"
+            fullWidth={true}
+            className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+            onClick={() => {
+              removeToken(firstCoin.contract);
+              console.log(firstCoin.contract);
+              // reload
+              window.location.reload();
+            }}
+          >
+            Remove
+          </Button>
         </div>
-
-        <Button
-          size="large"
-          shape="rounded"
-          fullWidth={true}
-          className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-          onClick={() => {
-            removeToken(firstCoin.contract);
-            console.log(firstCoin.contract);
-            // reload
-            window.location.reload();
-          }}
-
-          
-        >
-          Remove
-        </Button>
-        </div>
-
-        
-        
       )}
       {transactionType === 'exchange' && (
         <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
@@ -352,8 +366,6 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
           />
         </div>
       )}
-
-
     </>
   );
 }
@@ -419,7 +431,6 @@ export default function TransactCoin({
         </Tab.List>
         <span className="my-6 block h-[1px] border-b border-dashed border-b-gray-200 dark:border-b-gray-700"></span>
         <TabPanels>
-          
           <TabPanel className="focus:outline-none">
             <CoinTransaction transactionType="send" />
           </TabPanel>
@@ -436,7 +447,6 @@ export default function TransactCoin({
           <TabPanel className="focus:outline-none">
             <CoinTransaction transactionType="exchange" />
           </TabPanel>
-
         </TabPanels>
       </Tab.Group>
     </div>
