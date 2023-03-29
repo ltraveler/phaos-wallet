@@ -33,26 +33,26 @@ export default function MinimalScreen() {
     setFirst(1);
     localStorage.setItem('balance', '0');
 
-    fetch('http://api.idena.io/api/address/' + address)
-    .then(response => response.json())
-    .then(data => {
-      setBalance(data.result.balance);
-      // 4 decimals
-      setBalance(Math.round(data.result.balance * 10000) / 10000);
-      if (data.result.balance === undefined) {
+    fetch('https://api.idena.io/api/address/' + address)
+      .then((response) => response.json())
+      .then((data) => {
+        setBalance(data.result.balance);
+        // 4 decimals
+        setBalance(Math.round(data.result.balance * 10000) / 10000);
+        if (data.result.balance === undefined) {
+          setBalance(0);
+          console.log(data);
+        }
+        // set local storage
+        localStorage.setItem('balance', data.result.balance);
+      })
+      .catch((err) => {
         setBalance(0);
-        console.log(data);
-      }
-      // set local storage
-      localStorage.setItem('balance', data.result.balance);
-  
-    }).catch(err => {
-      setBalance(0); 
-    });
+      });
   }
 
   console.log(balance);
-  // GET BALANCE  
+  // GET BALANCE
   useEffect(() => {
     setLimit(topPoolsLimit(breakpoint));
   }, [breakpoint]);
@@ -72,16 +72,10 @@ export default function MinimalScreen() {
           <div className="flex items-center rounded-lg bg-white p-6 shadow-card dark:bg-light-dark md:col-span-1 md:h-[678px] lg:col-span-6 lg:h-[678px] xl:col-span-6 xl:row-start-1 xl:row-end-2 xl:h-auto 2xl:col-span-6 2xl:h-full 2xl:p-6 3xl:col-span-6 3xl:p-8">
             <div className="w-full">
               <div className="mb-8 h-full">
-  
                 {address ? (
                   <div>
-                    <Avatar
-                      alt="Author"
-                      className="mx-auto mb-6"
-                      size="xl"
-                      
-                    />
-            
+                    <Avatar alt="Author" className="mx-auto mb-6" size="xl" />
+
                     <h6 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
                       {address}
                     </h6>
@@ -90,12 +84,17 @@ export default function MinimalScreen() {
                     </h3>
                     <div className="mb-7 text-center font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl 3xl:mb-8 3xl:text-[32px]">
                       {balance} iDNA
-                       
                     </div>
                   </div>
                 ) : (
                   <div>
-                    <img src="https://robohash.org/PhaoWallet" alt="Phao Wallet" className="mx-auto mb-6" width="100" height="100" />
+                    <img
+                      src="https://robohash.org/PhaoWallet"
+                      alt="Phao Wallet"
+                      className="mx-auto mb-6"
+                      width="100"
+                      height="100"
+                    />
                     <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
                       Connect your wallet
                     </h3>
