@@ -19,6 +19,7 @@ export default function WalletCard() {
     '0x0000000000000000000000000000000000000000';
   let [walletBalances, setWalletBalances] = useState([]);
   const [first, setFirst] = useState(0);
+  const [load, setLoad] = useState(0);
 
   // get balances from getTokens
   if (first === 0) {
@@ -35,7 +36,6 @@ export default function WalletCard() {
         walletCurrencies[index].balance = balance;
         walletCurrencies[index].balance = parseFloat(balance);
         // 1 sec
-        new Promise((resolve) => setTimeout(resolve, 1000));
         setWalletBalances(walletCurrencies);
       
      
@@ -43,6 +43,12 @@ export default function WalletCard() {
 
 
   }
+
+  // time out
+  setTimeout(() => {
+    setLoad(load + 1);
+  }, 1000);
+  
 
   console.log(walletCurrencies);
   const [balance, setBalance] = useState(0);
