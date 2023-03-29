@@ -19,11 +19,14 @@ export default function WalletCard() {
     '0x0000000000000000000000000000000000000000';
   const [walletBalances, setWalletBalances] = useState([]);
   const [first, setFirst] = useState(0);
-
+  const [loaded, setLoaded] = useState(0);
   // get balances from getTokens
   if (first === 0) {
     setFirst(1);
+    setLoaded(1);
+
     walletCurrencies.forEach(async (item, index) => {
+
       const balance = await getBalance(item.contract, address);
       console.log(balance);
       walletCurrencies[index].balance = balance;
@@ -33,6 +36,8 @@ export default function WalletCard() {
       // wait
       await new Promise((r) => setTimeout(r, 500));
     });
+    // wait until all have been loaded
+    
   }
   console.log(walletCurrencies);
   const [balance, setBalance] = useState(0);
@@ -82,6 +87,21 @@ export default function WalletCard() {
           {percentage} {symbol}
         </div>
       </div>
+      {
+        loaded !== 1 ? (
+          <div className="mt-6 flex items-center justify-between">
+            <p>
+              Loading balances <span className="text-blue-500">...</span>
+            </p>
+            <small>If balances are not loading, please refresh the page.</small>
+
+          </div>
+        ) : (
+          <p>
+
+          </p>
+        )
+      }
       <div className="mt-20">
         <div className="mb-5 flex items-center justify-between text-sm font-medium text-gray-400">
           <span>Token Name</span>
@@ -100,7 +120,14 @@ export default function WalletCard() {
                 {currency.name}
               </span>
               <span className="text-center">{currency.symbol}</span>
-              <span className="text-right">{currency.balance}</span>
+              <span className="text-right"> {
+                currency.balance === undefined ? (
+                  <span className="text-blue-500">...</span>
+                ) : (
+                  <span>{currency.balance}</span>
+                )
+              }
+              </span>
             </li>
           ))}
         </ul>
