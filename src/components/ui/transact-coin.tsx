@@ -159,7 +159,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
               try {
                 getTransferCallInfo(token_contract, destination, address, amount,firstCoin.decimals).then((res) => {
                   console.log('RES', res);
-                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "http://localhost:3000/tx/" //PHAOS.APP CHANGE
+                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "https://www.phaos.app/tx/" //PHAOS.APP CHANGE
                 });
               } catch (error) {
                 console.log('ERROR', error);
@@ -169,7 +169,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
               try {
                 getTransferCall(token_contract, destination, address, amount).then((res) => {
                   console.log('RES', res);
-                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "http://localhost:3000/tx/" //PHAOS.APP CHANGE
+                  window.location.href = 'https://app.idena.io/dna/raw?tx=' + res + '&callback_format=html&callback_url=' + "https://www.phaos.app/tx/" //PHAOS.APP CHANGE
                 });
               } catch (error) {
                 console.log('ERROR', error);

@@ -37,7 +37,7 @@ export default function WalletConnect({
       {address === '' ? (
             <Button
             // go to localhost:3001
-                onClick={() => window.location.href = 'http://localhost:3001'}
+                onClick={() => window.location.href = 'https://phaos-wallet-login.vercel.app/'}
                 className={cn('shadow-main hover:shadow-large', btnClassName)}
             >
                 CONNECT
