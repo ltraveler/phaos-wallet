@@ -7,7 +7,7 @@ import Profile from '@/components/profile/profile';
 // static data
 import { authorData } from '@/data/static/author';
 import RootLayout from '@/layouts/_root-layout';
-import { claimTx  } from '@/components/ui/idena';
+import { claimTx  } from '@/components/idena/idena';
 import Button from '@/components/ui/button';
 // react
 import { useRouter } from 'next/router';

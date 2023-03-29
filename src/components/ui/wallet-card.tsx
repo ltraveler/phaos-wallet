@@ -5,9 +5,9 @@ import { ArrowUp } from '@/components/icons/arrow-up';
 import { LongArrowUp } from '@/components/icons/long-arrow-up';
 // import { walletCurrencies } from '@/data/static/wallet-currencies';
 import { Phaos } from '@/components/icons/phaos';
-import { getTokens } from './tokens';
+import { getTokens, removeToken, saveToken,saveTokenDemo } from '@/components/idena/tokens';
 
-import { getBalance } from './idena';
+import { getBalance } from '../idena/idena';
 
 export const walletCurrencies = getTokens();
 import { getIconFromName } from '@/data/static/coin-list';
@@ -30,6 +30,8 @@ export default function WalletCard() {
       // parse float for pieChart
       walletCurrencies[index].balance = parseFloat(balance);
       setWalletBalances(walletCurrencies);
+      // wait
+      await new Promise((r) => setTimeout(r, 500));
     });
   }
   console.log(walletCurrencies);

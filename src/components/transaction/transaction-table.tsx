@@ -18,16 +18,27 @@ import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
 import { useIsMounted } from '@/lib/hooks/use-is-mounted';
 
 const TransactionData = [
-  {
+  // {
+  //   id: 0,
+  //   transactionType: 'Buy',
+  //   createdAt: '8 february 2023',
+  //   symbol: 'iDNA',
+  //   status: 'Pending',
+  //   address: '0x6390e03ec...',
+  //   amount: {
+  //     balance: '0.2231345',
+  //     usdBalance: '11,032.24',
+  //   },
+    {
     id: 0,
-    transactionType: 'Buy',
-    createdAt: '8 february 2023',
-    symbol: 'iDNA',
-    status: 'Pending',
-    address: '0x6390e03ec...',
+    transactionType: 'Comming soon',
+    createdAt: 'Comming soon',
+    symbol: 'Comming soon',
+    status: 'Comming soon',
+    address: 'Comming soon',
     amount: {
-      balance: '0.2231345',
-      usdBalance: '11,032.24',
+      balance: 'Comming soon',
+      usdBalance: 'Comming soon',
     },
   }
 ];

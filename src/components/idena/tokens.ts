@@ -16,13 +16,18 @@ export const saveToken = (token_contract: string) => {
     if (tokens === null) {
       tokens = [];
     }
-
+    // if we already have this token, don't add it again
+    for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i].contract === token_contract) {
+        return null;
+      }
+    }
     let token = {
       contract: token_contract,
       symbol: '',
       name: 'test',
       decimals: 0,
-      icon: 'Phaos',
+      icon: 'Idena',
     };
 
     // now wait until all promises are resolved
@@ -39,6 +44,33 @@ export const saveToken = (token_contract: string) => {
       tokens.push(token);
       localStorage.setItem('tokens', JSON.stringify(tokens));
     });
+  } else {
+    return null;
+  }
+};
+export const saveTokenInfo = (token_contract: string, token_symbol: string, token_name: string, token_decimals: number) => {
+  // array
+  if (typeof window !== 'undefined') {
+    let tokens = JSON.parse(localStorage.getItem('tokens') || '[]');
+    if (tokens === null) {
+      tokens = [];
+    }
+    // if we already have this token, don't add it again
+    for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i].contract === token_contract) {
+        return null;
+      }
+    }
+    let token = {
+      contract: token_contract,
+      symbol: token_symbol,
+      name: token_name,
+      decimals: token_decimals,
+      icon: 'Idena',
+    };
+    tokens.push(token);
+    localStorage.setItem('tokens', JSON.stringify(tokens));
+    
   } else {
     return null;
   }
@@ -68,6 +100,9 @@ export const saveTokenDemo = () => {
 };
 
 export const removeToken = (token_contract: string) => {
+  if (token_contract == "0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E") {
+    return null;
+  }
   if (typeof window !== 'undefined') {
     let tokens = JSON.parse(localStorage.getItem('tokens') || '[]');
     for (let i = 0; i < tokens.length; i++) {

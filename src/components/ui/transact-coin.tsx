@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { Tab, TabPanels, TabPanel } from '@/components/ui/tab';
 import { ChevronDown } from '@/components/icons/chevron-down';
 // import { coinList } from '@/data/static/coin-list';
-import { getTokens, removeToken, saveToken,saveTokenDemo } from './tokens';
-import { getTransferCall } from './idena';
+import { getTokens, removeToken, saveToken,saveTokenDemo,saveTokenInfo } from '@/components/idena/tokens';
+import { getTransferCall } from '../idena/idena';
 
 // let coinList = getTokens();
 import Button from '@/components/ui/button';
@@ -74,6 +74,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
   const [secondCoin, setSecondCoin] = useState(coinList[1]);
   const [conversionRate, setConversionRate] = useState(0);
   const [exchangeRate, setExchangeRate] = useState(0);
+  const [customType, setCustomType] = useState(0);
   let decimalPattern = /^[0-9]*[.,]?[0-9]*$/;
 
   const handleOnChangeFirstCoin = (
@@ -169,30 +170,117 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
       )}
       {transactionType === 'custom' && (
         <div>
-        <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-            <input
-              type="text"
-              placeholder="Contract Address"
-              id="contract-address"
-              className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-            />
-            
-        </div>
-          <Button
-          size="large"
-          shape="rounded"
-          fullWidth={true}
-          className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-          onClick={() => {
-            saveToken(document.getElementById('contract-address').value);
-            window.location.reload();
+        {
+          customType === 0 ? (
+            <div>
+              <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+                  <input
+                    type="text"
+                    placeholder="Contract Address"
+                    id="contract-address"
+                    className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                  />
 
-          }}
-          
-        >
-          Add
+                  
+              </div>
+              <Button
+                size="small"
+                shape="rounded"
+                fullWidth={false}
+                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+                onClick={() => {
+                  setCustomType(1)
+                }}
+                
+              >
+                Non IRC20
+                </Button>
+                <Button
+                size="large"
+                shape="rounded"
+                fullWidth={true}
+                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+                onClick={() => {
+                  saveToken(document.getElementById('contract-address').value);
+                  // wait for 1 second
+                  setTimeout(function () {
+                    window.location.reload();
+                  }, 1000);
 
-        </Button>
+                }}
+                
+              >
+                Add
+
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+                  <input
+                    type="text"
+                    placeholder="Contract Address"
+                    id="contract-address"
+                    className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                  />
+
+              </div>
+              <Button
+                size="small"
+                shape="rounded"
+                fullWidth={false}
+                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+                onClick={() => {
+                  setCustomType(0)
+                }}
+                
+              >
+                Non IRC20
+                </Button>
+              <div className="group relative mt-4 flex rounded-lg  transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600 margin: 10 auto;">
+                <input
+                        type="text"
+                        placeholder="Token Name"
+                        id="token-name"
+                        className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                      />
+                  
+                  <input
+                        type="text"
+                        placeholder="Token Symbol"
+                        id="token-symbol"
+                        className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                      />
+                  <input
+                        type="number"
+                        placeholder="Token Decimals"
+                        id="token-decimals"
+                        className="h-11 w-full border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
+                      />
+              </div>
+
+                <Button
+                size="large"
+                shape="rounded"
+                fullWidth={true}
+                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+                onClick={() => {
+                  // oken_contract: string, token_symbol: string, token_name: string, token_decimals: number
+                  saveTokenInfo(document.getElementById('contract-address').value, document.getElementById('token-symbol').value, document.getElementById('token-name').value, document.getElementById('token-decimals').value);
+                  // wait for 1 second
+                  setTimeout(function () {
+                    window.location.reload();
+                  }, 1000);
+
+                }}
+                
+              >
+                Add
+
+              </Button>
+            </div>
+          )
+        }
         <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
           <CoinListBox
               coins={coinList}
