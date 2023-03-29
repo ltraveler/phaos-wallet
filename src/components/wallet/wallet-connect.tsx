@@ -36,7 +36,7 @@ export default function WalletConnect({
       {address === '' ? (
         <Button
           // go to localhost:3001
-          onClick={() => (window.location.href = 'process.env.AUTH_DOMAIN')}
+          onClick={() => (window.location.href = process.env.AUTH_DOMAIN)}
           className={cn('shadow-main hover:shadow-large', btnClassName)}
         >
           CONNECT
