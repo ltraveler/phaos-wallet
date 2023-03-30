@@ -54,17 +54,28 @@ export default function WalletCard() {
   }
 
   // time out
-  setTimeout(() => {
-    setLoad(load + 1);
-  }, 1000);
+
 
 
   console.log(walletCurrencies);
   const [balance, setBalance] = useState(0);
 
-  const [percentage, setPercentage] = useState(walletCurrencies[0].balance);
+  const [percentage, setPercentage] = useState("");
+
   // set symbol
-  const [symbol, setSymbol] = useState(walletCurrencies[0].code);
+  const [symbol, setSymbol] = useState("");
+  const [first1, setFirst1] = useState(0);
+
+  setTimeout(() => {
+    setLoad(load + 1);
+    if (first1 === 0) {
+      setFirst1(1);
+      setSymbol(walletCurrencies[0].symbol);
+    
+      setPercentage(walletCurrencies[0].balance);
+    }
+  }, 1000);
+
   const data = walletCurrencies;
   return (
     <div className="rounded-lg bg-white p-6 shadow-card dark:bg-light-dark sm:p-8">
