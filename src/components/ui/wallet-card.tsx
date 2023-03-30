@@ -38,7 +38,7 @@ export default function WalletCard() {
           // 1 sec
           setWalletBalances(walletCurrencies);
         } else {
-          const balance = await getBalanceInfo(item.contract, address);
+          const balance = await getBalanceInfo(item.contract, address,item.decimals);
 
           console.log(balance);
           walletCurrencies[index].balance = balance;
