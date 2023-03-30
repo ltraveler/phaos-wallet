@@ -132,6 +132,7 @@ async function getDecimals(tokenAddr) {
   return decimals;
 }
 
+<<<<<<< HEAD
 async function getBalance(tokenAddr, address) {
   // wait 1 sec
   new Promise((resolve) => setTimeout(resolve, 1000));
@@ -149,6 +150,104 @@ async function getBalance(tokenAddr, address) {
             format: 'hex',
             value: address,
           },
+=======
+async function getBalance(tokenAddr, address){
+    // wait 1 sec
+    new Promise(resolve => setTimeout(resolve, 1000));
+    let decimals = await getDecimals(tokenAddr);
+    let callData={
+    "method": "contract_estimateCall", 
+    "params": [{
+        "contract": tokenAddr,
+        "method": "getBalance",
+        "amount": null,
+        "args": [{
+            "index": 0,
+            "format": "hex",
+            "value": address
+        }]
+    }],
+    "id": 1,
+    "key": api_key
+    };
+    
+    // remove things that can break hex
+    
+    console.log(callData)
+    let response = await rpcCall(callData);
+    console.log("GET BALANCE",response);
+
+    let balance = hexToBigInt(response.result.actionResult.outputData);
+    if (balance == 0) {
+        console.log("0")
+        return "0";
+    }
+
+    return formatString(balance.toString(), decimals);
+}
+
+async function getBalanceInfo(tokenAddr, address,decimals){
+
+  
+    let callData={
+    "method": "contract_estimateCall", 
+    "params": [{
+        "contract": tokenAddr,
+        "method": "getBalance",
+        "amount": null,
+        "args": [{
+            "index": 0,
+            "format": "hex",
+            "value": address
+        }]
+    }],
+    "id": 1,
+    "key": api_key
+    };
+    
+    // remove things that can break hex
+    
+    console.log(callData)
+    let response = await rpcCall(callData);
+    console.log("GET BALANCE",response);
+
+    let balance = hexToBigInt(response.result.actionResult.outputData);
+    if (balance == 0) {
+        console.log("0")
+        return "0";
+    }
+
+    return formatString(balance.toString(), decimals);
+}
+
+
+
+async function estimateGasCost(tokenAddr, args){
+    let callData={
+        "method": "contract_estimateCall",
+        "params": [{
+            "contract": tokenAddr,
+            "method": "transfer",
+            "args": args
+        }],
+        "id": 1,
+        "key": api_key
+    };
+    console.log(callData)
+    let response = await rpcCall(callData);
+    console.log("ESTIMATE GAS COST",response);
+    return Number(response.result.txFee) + Number(response.result.gasCost) + 0.02;
+}
+
+async function hasClaimed(address){
+    let callData={
+        "method": "contract_readMap",
+        "params": [
+            "0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E", // Our token address
+            "c:",
+            address,
+            "byte"
+>>>>>>> 8d228d9 (test)
         ],
       },
     ],
@@ -355,11 +454,12 @@ function transferPayload(dest, amount) {
 
 // export all functions
 module.exports = {
-  getBalance,
-  getSymbol,
-  getName,
-  getDecimals,
-  getTransferCall,
-  getTransferCallInfo,
-  claimTx,
-};
+    getBalance,
+    getBalanceInfo,
+    getSymbol,
+    getName,
+    getDecimals,
+    getTransferCall,
+    getTransferCallInfo,
+    claimTx
+}

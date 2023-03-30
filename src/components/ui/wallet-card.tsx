@@ -7,7 +7,7 @@ import { LongArrowUp } from '@/components/icons/long-arrow-up';
 import { Phaos } from '@/components/icons/phaos';
 import { getTokens, removeToken, saveToken,saveTokenDemo } from '@/components/idena/tokens';
 
-import { getBalance } from '../idena/idena';
+import { getBalance,getBalanceInfo} from '../idena/idena';
 import { useEffect } from 'react';
 export const walletCurrencies = getTokens();
 import { getIconFromName } from '@/data/static/coin-list';
@@ -28,16 +28,25 @@ export default function WalletCard() {
     walletCurrencies.forEach(async (item, index) => {
 
         console.log("updating balance for: " + item.name);
+        if (item.info !== undefined) {
+          // const balance = await getBalance(item.contract, address);
+          const balance = await getBalance(item.contract, address);
 
-        // const balance = await getBalance(item.contract, address);
-        const balance = await getBalance(item.contract, address);
+          console.log(balance);
+          walletCurrencies[index].balance = balance;
+          walletCurrencies[index].balance = parseFloat(balance);
+          // 1 sec
+          setWalletBalances(walletCurrencies);
+        } else {
+          const balance = await getBalanceInfo(item.contract, address);
 
-        console.log(balance);
-        walletCurrencies[index].balance = balance;
-        walletCurrencies[index].balance = parseFloat(balance);
-        // 1 sec
-        setWalletBalances(walletCurrencies);
-      
+          console.log(balance);
+          walletCurrencies[index].balance = balance;
+          walletCurrencies[index].balance = parseFloat(balance);
+          // 1 sec
+          setWalletBalances(walletCurrencies);
+        }
+        
      
     });
 
@@ -48,7 +57,7 @@ export default function WalletCard() {
   setTimeout(() => {
     setLoad(load + 1);
   }, 1000);
-  
+
 
   console.log(walletCurrencies);
   const [balance, setBalance] = useState(0);
