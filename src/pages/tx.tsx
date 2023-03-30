@@ -27,6 +27,7 @@ const Tx = () => {
     let [tx, setTx] = useState('');
     let [status, setStatus] = useState('');
     let [tryCount, setTryCount] = useState(0);
+
     // fisrt time
     // decode base64 string and set as local storage
     // redirect to home page
@@ -55,7 +56,7 @@ const Tx = () => {
                 }
             });
           }
-          , 1000);
+          , 7000);
 
       }, []);
 
