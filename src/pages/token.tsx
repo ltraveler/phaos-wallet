@@ -72,7 +72,6 @@ const AuthorProfilePage: NextPageWithLayout<
                     ></Image>
                   </div>
                 </div>
-
                 <div className="prose prose-indigo mt-5 text-gray-500">
                   <p>
                     In the global Idena community, a group of technology
@@ -109,38 +108,68 @@ const AuthorProfilePage: NextPageWithLayout<
             </div>
           </div>
         </div>
-
-        <div className="flex w-full flex-col items-center justify-center">
-          <div className="relative w-52 max-w-full sm:w-[400px] xl:w-[450px] 3xl:w-[500px]">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Phaos
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              1st Proof-of-Personhood wallet based on the Idena Blockchain
+        {/*Account info*/}
+        <div className="overflow-hidden bg-white shadow sm:rounded-lg">
+          <div className="px-4 py-5 sm:px-6">
+            <h3 className="text-lg font-medium leading-6 text-gray-900">
+              iDNA Wallet Information
+            </h3>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              Your identity details.
             </p>
           </div>
-          {address}
-
-          <Button
-            size="large"
-            shape="rounded"
-            fullWidth={true}
-            className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-            onClick={() => {
-              claimTx(address).then((txHash) => {
-                console.log(txHash);
-                // go to https://app.idena.io/dna/raw?tx=
-                window.location.href =
-                  'https://app.idena.io/dna/raw?tx=' +
-                  txHash +
-                  '&callback_format=html&callback_url=' +
-                  process.env.NEXT_PUBLIC_WALLET_DOMAIN +
-                  '/tx/';
-              });
-            }}
-          >
-            Claim
-          </Button>
+          <div className="border-t border-gray-200">
+            <dl>
+              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">Address</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                  {address}
+                </dd>
+              </div>
+              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">Age</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                  8
+                </dd>
+              </div>
+              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">Status</dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                  Human
+                </dd>
+              </div>
+              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt className="text-sm font-medium text-gray-500">
+                  PHO to claim
+                </dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                  64 / Already claimed
+                </dd>
+              </div>
+              <div>
+                <Button
+                  size="large"
+                  shape="rounded"
+                  fullWidth={true}
+                  className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+                  onClick={() => {
+                    claimTx(address).then((txHash) => {
+                      console.log(txHash);
+                      // go to https://app.idena.io/dna/raw?tx=
+                      window.location.href =
+                        'https://app.idena.io/dna/raw?tx=' +
+                        txHash +
+                        '&callback_format=html&callback_url=' +
+                        process.env.NEXT_PUBLIC_WALLET_DOMAIN +
+                        '/tx/';
+                    });
+                  }}
+                >
+                  Claim
+                </Button>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </>
