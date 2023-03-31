@@ -239,8 +239,8 @@ async function hasClaimed(address) {
     key: api_key,
   };
   let response = await rpcCall(callData);
-  if (response.result) return 1;
-  return 0;
+  if (response.result) return 1; // claimed
+  return 0; // not claimed
 }
 
 async function claimTx(address) {
@@ -399,4 +399,5 @@ module.exports = {
   getTransferCall,
   getTransferCallInfo,
   claimTx,
+  hasClaimed,
 };

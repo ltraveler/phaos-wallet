@@ -8,9 +8,9 @@ import Profile from '@/components/profile/profile';
 // static data
 import { authorData } from '@/data/static/author';
 import RootLayout from '@/layouts/_root-layout';
-import { claimTx } from '@/components/idena/idena';
+import { claimTx,hasClaimed  } from '@/components/idena/idena';
 import Button from '@/components/ui/button';
-
+import { useState } from 'react';
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {},
@@ -24,6 +24,44 @@ const AuthorProfilePage: NextPageWithLayout<
   const address =
     localStorage.getItem('address') ||
     '0x0000000000000000000000000000000000000000';
+    
+    const [first, setFirst] = useState(0);
+    const [state, setState] = useState("Loading...");
+    const [age, setAge] = useState(0);
+    const [hasClaimed1, setHasClaimed] = useState(false);
+    if (first === 0) {
+      setFirst(1);
+  
+      fetch('https://api.idena.io/api/identity/' + address)
+        .then((response) => response.json())
+        .then((data) => {
+          setState(data.result.state);
+
+
+          
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+        fetch('https://api.idena.io/api/identity/' + address + '/age')
+        .then((response) => response.json())
+        .then((data) => {
+          setAge(data.result);
+
+
+          
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    hasClaimed(address).then((data) => {
+      // if 1 set to true
+      if (data === 1) {
+        setHasClaimed(true);
+      }
+
+    });
 
   return (
     <>
@@ -129,13 +167,13 @@ const AuthorProfilePage: NextPageWithLayout<
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Age</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                  8
+                  {age}
                 </dd>
               </div>
               <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Status</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                  Human
+                  {state}
                 </dd>
               </div>
               <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -143,30 +181,52 @@ const AuthorProfilePage: NextPageWithLayout<
                   PHO to claim
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                  64 / Already claimed
+                  {/* 100 - floor(500 / age) */}
+                  {/* check if age above 6 */}
+                  {age > 6 ? 100 - Math.floor(500 / age) : 0}
+       
                 </dd>
               </div>
               <div>
-                <Button
-                  size="large"
-                  shape="rounded"
-                  fullWidth={true}
-                  className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-                  onClick={() => {
-                    claimTx(address).then((txHash) => {
-                      console.log(txHash);
-                      // go to https://app.idena.io/dna/raw?tx=
-                      window.location.href =
-                        'https://app.idena.io/dna/raw?tx=' +
-                        txHash +
-                        '&callback_format=html&callback_url=' +
-                        process.env.NEXT_PUBLIC_WALLET_DOMAIN +
-                        '/tx/';
-                    });
-                  }}
-                >
-                  Claim
-                </Button>
+
+                {
+                  age > 6 && hasClaimed1 === false ? (
+                
+                      <Button
+                        size="large"
+                        shape="rounded"
+                        fullWidth={true}
+                        className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+                        onClick={() => {
+                          claimTx(address).then((txHash) => {
+                            console.log(txHash);
+                            // go to https://app.idena.io/dna/raw?tx=
+                            window.location.href =
+                              'https://app.idena.io/dna/raw?tx=' +
+                              txHash +
+                              '&callback_format=html&callback_url=' +
+                              process.env.NEXT_PUBLIC_WALLET_DOMAIN +
+                              '/tx/';
+                          });
+                        }}
+                      >
+                        Claim
+                      </Button>
+                    ) : (
+                      <div>
+                      <p>Age must be above 6 to claim</p>
+                      <Button
+                        size="large"
+                        shape="rounded"
+                        fullWidth={true}
+                        className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
+                        disabled
+                      >
+                        Claim
+                      </Button>
+                      </div>
+                    )
+                }
               </div>
             </dl>
           </div>
