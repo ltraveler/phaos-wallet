@@ -94,6 +94,7 @@ export class IRC20 {
     Host.createGetIdentityPromise(caller, 100000).then("_claim", [], Balance.from(0), 3000000)
   }
 
+  @mutateState
   _claim(): void{
     let caller = Context.originalCaller()
     util.assert(Context.epoch() <= 108, "Tokens can no longer be claimed")
