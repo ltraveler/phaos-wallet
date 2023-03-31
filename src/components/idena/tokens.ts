@@ -101,7 +101,7 @@ export const saveTokenDemo = () => {
 };
 
 export const removeToken = (token_contract: string) => {
-  if (token_contract == "0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E") {
+  if (token_contract == "0xF3845AE80f86ef29a061C71bc66f7B4700FcFC87") {
     return null;
   }
   if (typeof window !== 'undefined') {
@@ -127,7 +127,7 @@ export const getTokens = () => {
     if (tokens.length === 0) {
       tokens = [
         {
-          contract: '0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E',
+          contract: '0xF3845AE80f86ef29a061C71bc66f7B4700FcFC87',
           symbol: 'PHO',
           name: 'Phaos',
           decimals: 18,
