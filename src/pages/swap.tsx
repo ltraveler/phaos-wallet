@@ -15,7 +15,7 @@ const SwapPage: NextPageWithLayout = () => {
     <>
       <NextSeo
         title="Swap"
-        description="Phao - 1st Proof-of-Personhood wallet based on the Idena Blockchain"
+        description="Phaos - 1st Proof-of-Personhood wallet based on the Idena Blockchain"
       />
       <Trade>
         <div className="mb-5 border-b border-dashed border-gray-200 pb-5 dark:border-gray-800 xs:mb-7 xs:pb-6">
@@ -56,7 +56,7 @@ const SwapPage: NextPageWithLayout = () => {
           <TransactionInfo label={'Offered by'} />
           <TransactionInfo label={'Price Slippage'} value={'1%'} />
           <TransactionInfo label={'Network Fee'} />
-          <TransactionInfo label={'Phao Fee'} />
+          <TransactionInfo label={'Phaos Fee'} />
         </div>
         <Button
           size="large"

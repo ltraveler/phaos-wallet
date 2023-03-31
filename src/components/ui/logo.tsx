@@ -23,10 +23,10 @@ export default function Logo() {
     >
       <span className="relative flex overflow-hidden">
         {isMounted && isDarkMode && (
-          <Image src={darkLogo} alt="Phao" height={24} priority />
+          <Image src={darkLogo} alt="Phaos" height={24} priority />
         )}
         {isMounted && !isDarkMode && (
-          <Image src={lightLogo} alt="Phao" height={24} priority />
+          <Image src={lightLogo} alt="Phaos" height={24} priority />
         )}
       </span>
     </AnchorLink>

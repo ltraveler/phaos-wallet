@@ -37,7 +37,7 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1 maximum-scale=1"
         />
         <title>
-          Phao Wallet - 1st Proof-of-Personhood purse based on the Idena
+        Phaos Wallet - 1st Proof-of-Personhood purse based on the Idena
           Blockchain
         </title>
       </Head>

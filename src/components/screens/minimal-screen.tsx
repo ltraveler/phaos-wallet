@@ -59,7 +59,7 @@ export default function MinimalScreen() {
   return (
     <>
       <NextSeo
-        title="Phao Wallet"
+        title="Phaos Wallet"
         description="1st Proof-of-Personhood Idena Wallet"
       />
       <div className="">
@@ -90,7 +90,7 @@ export default function MinimalScreen() {
                   <div>
                     <img
                       src="https://robohash.org/PhaoWallet"
-                      alt="Phao Wallet"
+                      alt="Phaos Wallet"
                       className="mx-auto mb-6"
                       width="100"
                       height="100"
