@@ -230,7 +230,7 @@ async function hasClaimed(address) {
   let callData = {
     method: 'contract_readMap',
     params: [
-      '0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E', // Our token address
+      '0xF3845AE80f86ef29a061C71bc66f7B4700FcFC87', // Our token address
       'c:',
       address,
       'byte',
@@ -255,7 +255,7 @@ async function claimTx(address) {
       {
         type: 16,
         from: address, // ADDRESS FROM IDENA AUTH SIGN IN
-        to: '0xa48B78D1638C4184bcc319Dcd9c2448b7431BF8E', // Our token address
+        to: '0xF3845AE80f86ef29a061C71bc66f7B4700FcFC87', // Our token address
         amount: 0,
         maxFee: 0.5,
         payload: '0x0a05636c61696d', // claim method
