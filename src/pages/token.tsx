@@ -2,6 +2,7 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo } from 'next-seo';
 import type { NextPageWithLayout } from '@/types';
 import Image from '@/components/ui/image';
+import IdenaPretty from '../assets/images/phaos_p_symbol.jpg';
 import Avatar from '@/components/ui/avatar';
 import Profile from '@/components/profile/profile';
 // static data
@@ -41,7 +42,74 @@ const AuthorProfilePage: NextPageWithLayout<
       </div>
 
       <div className="mx-auto flex w-full shrink-0 flex-col md:px-4 xl:px-6 3xl:max-w-[1700px] 3xl:px-12">
-        {/* Build page for info about token */}
+        {/* PHO Intro */}
+        <div className="relative bg-white">
+          <div className="hidden lg:absolute lg:inset-0 lg:block">
+            <div className="lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2">
+              <Image
+                src={IdenaPretty}
+                className="h-56 w-full object-cover lg:absolute lg:h-full"
+                alt="Idena Pretty"
+              ></Image>
+            </div>
+          </div>
+          <div className="relative px-4 pt-12 pb-16 sm:px-6 sm:pt-16 lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+            <div className="lg:col-start-2 lg:pl-8">
+              <div className="mx-auto max-w-prose text-base lg:ml-auto lg:mr-0 lg:max-w-lg">
+                <h2 className="font-semibold uppercase leading-6 tracking-wide text-indigo-600">
+                  PHO
+                </h2>
+                <h3 className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
+                  Phaos token
+                  <br /> on Phaos-Wallet
+                </h3>
+                <div className="m-5 hidden xs:block lg:hidden">
+                  <div className="lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2">
+                    <Image
+                      src={IdenaPretty}
+                      className="h-56 w-full object-cover lg:absolute lg:h-full"
+                      alt="Idena Pretty"
+                    ></Image>
+                  </div>
+                </div>
+
+                <div className="prose prose-indigo mt-5 text-gray-500">
+                  <p>
+                    In the global Idena community, a group of technology
+                    enthusiasts (Fireshift, Toni and Zen) found each other by
+                    coincidence. They shared a passion for blockchain innovation
+                    and were drawn to Idena&apos;s unique Proof of Personhood
+                    concept.
+                  </p>
+                  <p>
+                    During the Idena Hackathon, the team faced challenges but
+                    never gave up on their vision of creating a product to
+                    revolutionize DeFi with Proof of Personhood.
+                  </p>
+                  <p>
+                    With the help of their individual skills and expertise, they
+                    launched the Phaos-Wallet, a secure and easy-to-use wallet
+                    that quickly gained popularity among crypto enthusiasts.
+                  </p>
+                  <h3>How to claim PHO</h3>
+                  <p>
+                    The value of claimed tokens would be based on a formula,
+                    such as:
+                  </p>
+                  <p className="prose">
+                    <blockquote>100 - floor(500 / age)</blockquote>
+                  </p>
+                  <p>
+                    To claim the token, please authorize your wallet by clicking
+                    the &quot;Connect&quot; button and then click the
+                    &quot;Claim&quot; button.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="flex w-full flex-col items-center justify-center">
           <div className="relative w-52 max-w-full sm:w-[400px] xl:w-[450px] 3xl:w-[500px]">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">

@@ -3,6 +3,7 @@ import Image from '@/components/ui/image';
 import { StaticImageData } from 'next/image';
 
 interface AvatarProps {
+  image: StaticImageData;
   alt: string;
   className?: string;
   size?: SizeNames;
@@ -51,7 +52,13 @@ function Avatar({
       {shape === 'circle' ? (
         size === 'xs' || 'sm' ? (
           <Image
-            src={ "https://robohash.org/" + address +  "?set=set4"  + "?width=200" + "?height=200"}
+            src={
+              'https://robohash.org/' +
+              address +
+              '?set=set4' +
+              '?width=200' +
+              '?height=200'
+            }
             alt={alt}
             width={200}
             height={200}
@@ -60,7 +67,13 @@ function Avatar({
           />
         ) : (
           <Image
-            src={ "https://robohash.org/" + address +  "?set=set4"  + "?width=200" + "?height=200"}
+            src={
+              'https://robohash.org/' +
+              address +
+              '?set=set4' +
+              '?width=200' +
+              '?height=200'
+            }
             alt={alt}
             width={width}
             height={height}
