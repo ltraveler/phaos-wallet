@@ -31,14 +31,14 @@ const TransactionData = [
   //   },
     {
     id: 0,
-    transactionType: 'Comming soon',
-    createdAt: 'Comming soon',
-    symbol: 'Comming soon',
-    status: 'Comming soon',
-    address: 'Comming soon',
+    transactionType: 'coming soon',
+    createdAt: 'coming soon',
+    symbol: 'coming soon',
+    status: 'coming soon',
+    address: 'coming soon',
     amount: {
-      balance: 'Comming soon',
-      usdBalance: 'Comming soon',
+      balance: 'coming soon',
+      usdBalance: 'coming soon',
     },
   }
 ];
