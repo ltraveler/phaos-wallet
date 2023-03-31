@@ -49,6 +49,8 @@ export default function WalletCard() {
         
      
     });
+    // set to local storage
+    localStorage.setItem('walletCurrencies', JSON.stringify(walletCurrencies));
 
 
   }
@@ -57,7 +59,6 @@ export default function WalletCard() {
 
 
 
-  console.log(walletCurrencies);
   const [balance, setBalance] = useState(0);
 
   const [percentage, setPercentage] = useState("");
@@ -73,6 +74,8 @@ export default function WalletCard() {
       setSymbol(walletCurrencies[0].symbol);
     
       setPercentage(walletCurrencies[0].balance);
+      localStorage.setItem('walletCurrencies', JSON.stringify(walletCurrencies));
+
     }
   }, 1000);
 

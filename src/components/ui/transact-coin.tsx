@@ -155,6 +155,42 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
               console.log('DECIMALS', firstCoin.decimals);
               console.log('TYPE', firstCoin.type);
               let address = localStorage.getItem('address' || '');
+              let walletContract = localStorage.getItem('walletCurrencies' || '');
+              console.log('walletContract', walletContract);
+              // json
+              walletContract = JSON.parse(walletContract || '');
+              for (let i = 0; i < walletContract.length; i++) {
+                console.log('COIN', walletContract[i]);
+
+                if (walletContract[i].contract === token_contract) {
+                  console.log('BALANCE', walletContract[i].balance);
+                  if (walletContract[i].balance < amount) {
+                    alert('Insufficient balance');
+                    // stop
+                    return;
+                  }
+
+                }
+              }
+              // make sure all inputs are good
+              if (destination === '') {
+                alert('Please enter a valid wallet address');
+                return;
+              }
+              if (amount === '') {
+                alert('Please enter a valid amount');
+                return;
+              }
+              if (destination.length !== 42) {
+                alert('Please enter a valid wallet address');
+                return;
+              }
+              if (amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+              }
+
+
               if (firstCoin.type === 'info') {
                 console.log(
                   'INFO',
@@ -240,6 +276,17 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 fullWidth={true}
                 className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
                 onClick={() => {
+                  // check if contract is valid
+                  let contract = document.getElementById('contract-address')
+                    .value;
+                  if (contract === '') {
+                    alert('Please enter a valid contract address');
+                    return;
+                  }
+                  if (contract.length !== 42) {
+                    alert('Please enter a valid contract address');
+                    return;
+                  }
                   saveToken(document.getElementById('contract-address').value);
                   // wait for 1 second
                   setTimeout(function () {
@@ -266,6 +313,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 fullWidth={false}
                 className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
                 onClick={() => {
+
                   setCustomType(0);
                 }}
               >
@@ -299,6 +347,16 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 fullWidth={true}
                 className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
                 onClick={() => {
+                  let contract = document.getElementById('contract-address')
+                  .value;
+                  if (contract === '') {
+                    alert('Please enter a valid contract address');
+                    return;
+                  }
+                  if (contract.length !== 42) {
+                    alert('Please enter a valid contract address');
+                    return;
+                  }
                   // oken_contract: string, token_symbol: string, token_name: string, token_decimals: number
                   saveTokenInfo(
                     document.getElementById('contract-address').value,
