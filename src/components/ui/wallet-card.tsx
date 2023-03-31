@@ -5,9 +5,14 @@ import { ArrowUp } from '@/components/icons/arrow-up';
 import { LongArrowUp } from '@/components/icons/long-arrow-up';
 // import { walletCurrencies } from '@/data/static/wallet-currencies';
 import { Phaos } from '@/components/icons/phaos';
-import { getTokens, removeToken, saveToken,saveTokenDemo } from '@/components/idena/tokens';
+import {
+  getTokens,
+  removeToken,
+  saveToken,
+  saveTokenDemo,
+} from '@/components/idena/tokens';
 
-import { getBalance,getBalanceInfo} from '../idena/idena';
+import { getBalance, getBalanceInfo } from '../idena/idena';
 import { useEffect } from 'react';
 export const walletCurrencies = getTokens();
 import { getIconFromName } from '@/data/static/coin-list';
@@ -26,45 +31,42 @@ export default function WalletCard() {
     setFirst(1);
 
     walletCurrencies.forEach(async (item, index) => {
+      console.log('updating balance for: ' + item.name);
+      if (item.info !== undefined) {
+        // const balance = await getBalance(item.contract, address);
+        const balance = await getBalance(item.contract, address);
 
-        console.log("updating balance for: " + item.name);
-        if (item.info !== undefined) {
-          // const balance = await getBalance(item.contract, address);
-          const balance = await getBalance(item.contract, address);
+        console.log(balance);
+        walletCurrencies[index].balance = balance;
+        walletCurrencies[index].balance = parseFloat(balance);
+        // 1 sec
+        setWalletBalances(walletCurrencies);
+      } else {
+        const balance = await getBalanceInfo(
+          item.contract,
+          address,
+          item.decimals
+        );
 
-          console.log(balance);
-          walletCurrencies[index].balance = balance;
-          walletCurrencies[index].balance = parseFloat(balance);
-          // 1 sec
-          setWalletBalances(walletCurrencies);
-        } else {
-          const balance = await getBalanceInfo(item.contract, address,item.decimals);
-
-          console.log(balance);
-          walletCurrencies[index].balance = balance;
-          walletCurrencies[index].balance = parseFloat(balance);
-          // 1 sec
-          setWalletBalances(walletCurrencies);
-        }
-        
-     
+        console.log(balance);
+        walletCurrencies[index].balance = balance;
+        walletCurrencies[index].balance = parseFloat(balance);
+        // 1 sec
+        setWalletBalances(walletCurrencies);
+      }
     });
     // set to local storage
     localStorage.setItem('walletCurrencies', JSON.stringify(walletCurrencies));
-
-
   }
 
   // time out
 
-
-
   const [balance, setBalance] = useState(0);
 
-  const [percentage, setPercentage] = useState("");
+  const [percentage, setPercentage] = useState('');
 
   // set symbol
-  const [symbol, setSymbol] = useState("");
+  const [symbol, setSymbol] = useState('');
   const [first1, setFirst1] = useState(0);
 
   setTimeout(() => {
@@ -72,16 +74,18 @@ export default function WalletCard() {
     if (first1 === 0) {
       setFirst1(1);
       setSymbol(walletCurrencies[0].symbol);
-    
-      setPercentage(walletCurrencies[0].balance);
-      localStorage.setItem('walletCurrencies', JSON.stringify(walletCurrencies));
 
+      setPercentage(walletCurrencies[0].balance);
+      localStorage.setItem(
+        'walletCurrencies',
+        JSON.stringify(walletCurrencies)
+      );
     }
   }, 1000);
 
   const data = walletCurrencies;
   return (
-    <div className="rounded-lg bg-white p-6 shadow-card dark:bg-light-dark sm:p-8">
+    <div className="h-full rounded-lg bg-white p-6 shadow-card dark:bg-light-dark sm:p-8">
       <h3 className="mb-6 text-base font-medium uppercase">Wallet</h3>
 
       <div className="relative flex h-[290px] justify-center">
@@ -139,7 +143,7 @@ export default function WalletCard() {
                 {currency.name}
               </span>
               <span className="text-centr">{currency.symbol}</span>
-              <span className="text-right"> 
+              <span className="text-right">
                 {currency.balance} {currency.symbol}
               </span>
             </li>
