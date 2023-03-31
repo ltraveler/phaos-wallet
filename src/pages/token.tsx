@@ -67,7 +67,7 @@ const AuthorProfilePage: NextPageWithLayout<
                   <div className="lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2">
                     <Image
                       src={IdenaPretty}
-                      className="h-56 w-full object-cover lg:absolute lg:h-full"
+                      className="h-56 w-full object-cover grayscale-[90%] lg:absolute lg:h-full"
                       alt="Idena Pretty"
                     ></Image>
                   </div>
