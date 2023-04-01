@@ -69,7 +69,7 @@ export default function MinimalScreen() {
           gridClassName="grid-cols-1 gap-6 2xl:grid-cols-4"
         /> */}
         <div className="mt-6 grid grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-12">
-          <div className="flex items-center rounded-lg bg-white p-6 shadow-card dark:bg-light-dark md:col-span-1 md:h-[692px] lg:col-span-6 lg:h-[692px] xl:col-span-6 xl:row-start-1 xl:row-end-2 xl:h-auto 2xl:col-span-6 2xl:h-full 2xl:p-6 3xl:col-span-6 3xl:p-8">
+          <div className="flex items-center rounded-lg bg-white p-6 shadow-card dark:bg-light-dark sm:h-[667px] md:col-span-1 md:h-[650px] lg:col-span-6 xl:col-span-6 xl:row-start-1 xl:row-end-2 xl:h-full 2xl:col-span-6 2xl:h-full 2xl:p-6 3xl:col-span-6 3xl:p-8">
             <div className="w-full">
               <div className="mb-8 h-full">
                 {address ? (
@@ -113,7 +113,7 @@ export default function MinimalScreen() {
             <TransactionTable />
           </div>
 
-          <div className="3xl:col-spart-7 md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2 md:h-[692px] lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-end-2 lg:h-[692px] xl:col-start-7 xl:col-end-13 xl:row-start-1 xl:row-end-2 2xl:col-start-7 2xl:col-end-13 2xl:row-start-1 2xl:row-end-2 3xl:col-span-6 3xl:row-start-1 3xl:row-end-2">
+          <div className="3xl:col-spart-7 sm:h-[667px] md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2 md:h-[650px] lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-end-2 xl:col-start-7 xl:col-end-13 xl:row-start-1 xl:row-end-2 xl:h-full 2xl:col-start-7 2xl:col-end-13 2xl:row-start-1 2xl:row-end-2 2xl:h-full 3xl:col-span-6 3xl:row-start-1 3xl:row-end-2">
             <WalletCard />
           </div>
         </div>
