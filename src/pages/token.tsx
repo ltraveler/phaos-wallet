@@ -126,7 +126,10 @@ const AuthorProfilePage: NextPageWithLayout<
                     The value of claimed tokens would be based on a formula,
                     such as:
                   </p>
-                  <p className="prose">
+                  <p className="prose rtl:hidden">
+                    <blockquote>100 - floor(500 / age)</blockquote>
+                  </p>
+                  <p dir="ltr" className="prose text-right ltr:hidden">
                     <blockquote>100 - floor(500 / age)</blockquote>
                   </p>
                   <p>
