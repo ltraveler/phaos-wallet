@@ -7,7 +7,7 @@ import Profile from '@/components/profile/profile';
 // static data
 import { authorData } from '@/data/static/author';
 import RootLayout from '@/layouts/_root-layout';
-import { claimTx } from '@/components/idena/idena';
+import { claimTx, txRecepit } from '@/components/idena/idena';
 import Button from '@/components/ui/button';
 // react
 import { useRouter } from 'next/router';
@@ -38,15 +38,14 @@ const Tx = () => {
     useEffect(() => {
       setTx(tx);
       let refreshIntervalId = setInterval(() => {
-        fetch('https://api.idena.io/api/Transaction/' + tx)
-          .then((response) => response.json())
+        txReceipt(tx)
           .then((data) => {
             console.log(data);
             // if err
             if (data.error) {
               setStatus('Error');
             }
-            if (data.result.blockHeight > 0) {
+            if (data) {
               setStatus('Success ');
               // redirect to home page
               router.push('/');
@@ -59,7 +58,7 @@ const Tx = () => {
           .catch((err) => {
             console.log(err);
           });
-      }, 7000);
+      }, 5000);
     }, []);
   }
   // check status every 5 seconds
