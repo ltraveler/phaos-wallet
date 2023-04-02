@@ -207,7 +207,7 @@ const AuthorProfilePage: NextPageWithLayout<
                 ) : (
                   <div>
                     <div className="mt-6 px-4 font-bold text-gray-500 dark:text-gray-400 sm:px-6">
-                      <p>❄ Age must be above 6 to claim</p>
+                      <p>* Age must be above 6 to claim</p>
                     </div>
                     <Button
                       size="large"
