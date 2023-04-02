@@ -388,6 +388,18 @@ function transferPayload(dest, amount) {
   payload = payload + amountHex;
   return payload;
 }
+async function txReceipt(tx_hash){
+  let callData={
+     "method": "bcn_txReceipt",
+      "params": [
+          tx_hash
+      ],
+      "id": 1,
+      "key": api_key
+  };
+  let response = await rpcCall(callData);
+  return response;
+}
 
 // export all functions
 module.exports = {
@@ -400,4 +412,5 @@ module.exports = {
   getTransferCallInfo,
   claimTx,
   hasClaimed,
+  txReceipt
 };
