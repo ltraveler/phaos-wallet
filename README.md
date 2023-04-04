@@ -6,17 +6,26 @@ Phaos wallet built by community for the community!
 - ToniDev (https://github.com/Toni-d-e-v/) - Back end
 #### Login Authentication App
 - https://github.com/ltraveler/phaos-wallet-login
+- phaos-wallet-login is under the same license as phaos-wallet
 #### Deployment
-- VERCEl used for deployment of the phaos wallet, phaos wallet login
+- VERCEL used for deployment of the phaos wallet, phaos wallet login
 - VPS used for deployment of docker backend of phaos wallet login ( phaos-wallet-login/backend.zip )
 
-
-
+## Technologies
+- React
+- Next.js
+- Tailwind CSS
+- Typescript
+- Docker
 
 ## Requirements
-- node
-- yarn
+- node.js
+- yarn 
 ## Installation
 1. yarn
 2. yarn dev
 
+## License
+- phaos-wallet is licensed under the MIT License
+- phaos-wallet-login is licensed under the MIT License
+- phaos-wallet-login/backend.zip is licensed under the MIT License
