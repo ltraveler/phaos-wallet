@@ -37,6 +37,7 @@ const Tx = () => {
 
     useEffect(() => {
       setTx(tx);
+      setStatus('Pending ');
       let refreshIntervalId = setInterval(() => {
         txReceipt(tx)
           .then((data) => {
@@ -51,9 +52,7 @@ const Tx = () => {
               router.push('/');
               // break out of loop
               clearInterval(refreshIntervalId);
-            } else {
-              setStatus('Pending');
-            }
+            } 
           })
           .catch((err) => {
             console.log(err);
