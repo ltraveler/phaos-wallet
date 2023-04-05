@@ -3,6 +3,10 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Tab, TabPanels, TabPanel } from '@/components/ui/tab';
 import { ChevronDown } from '@/components/icons/chevron-down';
+import { CustomToken } from '@/components/icons/custom-token';
+import { CustomTokenErc20 } from '@/components/icons/custom-token-erc20';
+import { SendToken } from '@/components/icons/send-token';
+import { AddRemoveCtrl } from '@/components/icons/add-remove-ctrl';
 // import { coinList } from '@/data/static/coin-list';
 import {
   getTokens,
@@ -22,11 +26,30 @@ import CoinListBox from '@/components/ui/coin-listbox';
 
 const tabMenu = [
   {
-    title: 'Send',
+    title: (
+      <>
+        <SendToken className="mr-1 inline-block h-auto w-5 fill-white" />
+        Send
+      </>
+    ),
     path: 'send',
   },
   {
-    title: 'Custom Token',
+    title: (
+      <>
+        <CustomTokenErc20 className="mr-1 inline-block h-auto w-5 fill-white" />
+        ERC-20
+      </>
+    ),
+    path: 'erc20',
+  },
+  {
+    title: (
+      <>
+        <CustomToken className="mr-1 inline-block h-auto w-5 fill-white" />
+        Custom
+      </>
+    ),
     path: 'custom',
   },
 ];
@@ -50,7 +73,7 @@ function TabItem({
     >
       {({ selected }) => (
         <>
-          <span className="flex w-full justify-between px-3 md:px-0">
+          <span className="justify-stretch flex w-full px-3 md:px-0">
             {children}
           </span>
           {selected && (
@@ -155,7 +178,9 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
               console.log('DECIMALS', firstCoin.decimals);
               console.log('TYPE', firstCoin.type);
               let address = localStorage.getItem('address' || '');
-              let walletContract = localStorage.getItem('walletCurrencies' || '');
+              let walletContract = localStorage.getItem(
+                'walletCurrencies' || ''
+              );
               console.log('walletContract', walletContract);
               // json
               walletContract = JSON.parse(walletContract || '');
@@ -169,7 +194,6 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                     // stop
                     return;
                   }
-
                 }
               }
               // make sure all inputs are good
@@ -189,7 +213,6 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 alert('Please enter a valid amount');
                 return;
               }
-
 
               if (firstCoin.type === 'info') {
                 console.log(
@@ -247,163 +270,157 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
           </Button>
         </div>
       )}
+      {transactionType === 'erc20' && (
+        <div>
+          <div className="mt-4 flex items-center gap-x-2">
+            <div className="group relative flex w-9/12 rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+              <CoinListBox
+                coins={coinList}
+                selectedCoin={firstCoin}
+                setSelectedCoin={setFirstCoin}
+                className="w-auto"
+              />
+              <input
+                type="text"
+                placeholder="Contract Address"
+                className="h-11 w-full rounded-lg border-0 text-sm dark:bg-light-dark  sm:h-13 sm:text-base"
+                id="contract-address-erc20"
+              />
+            </div>
+            <Button
+              size="medium"
+              shape="rounded"
+              fullWidth={false}
+              className="uppercase xs:tracking-widest xl:px-2 2xl:px-9"
+              onClick={() => {
+                // check if contract is valid
+                let contract = document.getElementById(
+                  'contract-address-erc20'
+                ).value;
+                if (contract === '') {
+                  alert('Please enter a valid contract address');
+                  return;
+                }
+                if (contract.length !== 42) {
+                  alert('Please enter a valid contract address');
+                  return;
+                }
+                saveToken(
+                  document.getElementById('contract-address-erc20').value
+                );
+                // wait for 1 second
+                setTimeout(function () {
+                  window.location.reload();
+                }, 1000);
+              }}
+            >
+              ➕
+            </Button>
+            <Button
+              size="medium"
+              shape="rounded"
+              fullWidth={false}
+              className="uppercase xs:tracking-widest xl:px-2 2xl:px-9"
+              onClick={() => {
+                removeToken(firstCoin.contract);
+                console.log(firstCoin.contract);
+                // reload
+                window.location.reload();
+              }}
+            >
+              ➖
+            </Button>
+          </div>
+          <div className="grid grid-cols-3 gap-x-4"></div>
+        </div>
+      )}
       {transactionType === 'custom' && (
         <div>
-          {customType === 0 ? (
-            <div>
-              <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-                <input
-                  type="text"
-                  placeholder="Contract Address"
-                  id="contract-address"
-                  className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                />
-              </div>
-              <Button
-                size="small"
-                shape="rounded"
-                fullWidth={false}
-                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-                onClick={() => {
-                  setCustomType(1);
-                }}
-              >
-                Non IRC20
-              </Button>
-              <Button
-                size="large"
-                shape="rounded"
-                fullWidth={true}
-                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-                onClick={() => {
-                  // check if contract is valid
-                  let contract = document.getElementById('contract-address')
-                    .value;
-                  if (contract === '') {
-                    alert('Please enter a valid contract address');
-                    return;
-                  }
-                  if (contract.length !== 42) {
-                    alert('Please enter a valid contract address');
-                    return;
-                  }
-                  saveToken(document.getElementById('contract-address').value);
-                  // wait for 1 second
-                  setTimeout(function () {
-                    window.location.reload();
-                  }, 1000);
-                }}
-              >
-                Add
-              </Button>
+          <div className="mt-4 flex items-center gap-x-2">
+            <div className="group relative flex w-full rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
+              <CoinListBox
+                coins={coinList}
+                selectedCoin={firstCoin}
+                setSelectedCoin={setFirstCoin}
+                className="w-auto"
+              />
+              <input
+                type="text"
+                placeholder="Contract Address"
+                className="h-11 w-full rounded-lg border-0 text-sm dark:bg-light-dark  sm:h-13 sm:text-base"
+                id="contract-address-custom"
+              />
             </div>
-          ) : (
-            <div>
-              <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-                <input
-                  type="text"
-                  placeholder="Contract Address"
-                  id="contract-address"
-                  className="h-11 w-full rounded-lg border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                />
-              </div>
-              <Button
-                size="small"
-                shape="rounded"
-                fullWidth={false}
-                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-                onClick={() => {
-
-                  setCustomType(0);
-                }}
-              >
-                Non IRC20
-              </Button>
-              <div className="margin: 10 auto; group relative  mt-4 flex rounded-lg transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-                <input
-                  type="text"
-                  placeholder="Token Name"
-                  id="token-name"
-                  className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Token Symbol"
-                  id="token-symbol"
-                  className="h-11 w-full  border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                />
-                <input
-                  type="number"
-                  placeholder="Token Decimals"
-                  id="token-decimals"
-                  className="h-11 w-full border border-gray-200 text-sm dark:border-gray-700 dark:bg-light-dark sm:h-13 sm:text-base"
-                />
-              </div>
-
-              <Button
-                size="large"
-                shape="rounded"
-                fullWidth={true}
-                className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-                onClick={() => {
-                  let contract = document.getElementById('contract-address')
-                  .value;
-                  if (contract === '') {
-                    alert('Please enter a valid contract address');
-                    return;
-                  }
-                  if (contract.length !== 42) {
-                    alert('Please enter a valid contract address');
-                    return;
-                  }
-                  // oken_contract: string, token_symbol: string, token_name: string, token_decimals: number
-                  saveTokenInfo(
-                    document.getElementById('contract-address').value,
-                    document.getElementById('token-symbol').value,
-                    document.getElementById('token-name').value,
-                    document.getElementById('token-decimals').value
-                  );
-                  // wait for 1 second
-                  setTimeout(function () {
-                    window.location.reload();
-                  }, 1000);
-                }}
-              >
-                Add
-              </Button>
-            </div>
-          )}
-          <div className="group relative mt-4 flex rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900 dark:border-gray-700 dark:hover:border-gray-600">
-            <CoinListBox
-              coins={coinList}
-              selectedCoin={firstCoin}
-              setSelectedCoin={setFirstCoin}
-            />
-            <input
-              type="text"
-              value={firstCoin.name}
-              placeholder="0.0"
-              inputMode="decimal"
-              onChange={handleOnChangeFirstCoin}
-              className="w-full rounded-lg border-0 text-right text-base outline-none focus:ring-0 ltr:text-right rtl:text-left dark:bg-light-dark"
-            />
+            <Button
+              size="medium"
+              shape="rounded"
+              fullWidth={false}
+              className="w-1/12 uppercase xs:tracking-widest xl:px-2 2xl:px-9"
+              onClick={() => {
+                let contract = document.getElementById(
+                  'contract-address-custom'
+                ).value;
+                if (contract === '') {
+                  alert('Please enter a valid contract address');
+                  return;
+                }
+                if (contract.length !== 42) {
+                  alert('Please enter a valid contract address');
+                  return;
+                }
+                // oken_contract: string, token_symbol: string, token_name: string, token_decimals: number
+                saveTokenInfo(
+                  document.getElementById('contract-address-custom').value,
+                  document.getElementById('token-symbol').value,
+                  document.getElementById('token-name').value,
+                  document.getElementById('token-decimals').value
+                );
+                // wait for 1 second
+                setTimeout(function () {
+                  window.location.reload();
+                }, 1000);
+              }}
+            >
+              ➕
+            </Button>
           </div>
+          <div className="mt-2 flex items-center gap-x-2">
+            <div className="group relative flex w-full rounded-lg border border-gray-200 transition-colors duration-200 hover:border-gray-900  dark:border-gray-700 dark:hover:border-gray-600">
+              <input
+                type="text"
+                placeholder="Name"
+                id="token-name"
+                className="h-11 w-full rounded-l-lg border-r text-sm dark:bg-light-dark sm:h-13 sm:text-base"
+              />
 
-          <Button
-            size="large"
-            shape="rounded"
-            fullWidth={true}
-            className="mt-6 uppercase xs:mt-8 xs:tracking-widest xl:px-2 2xl:px-9"
-            onClick={() => {
-              removeToken(firstCoin.contract);
-              console.log(firstCoin.contract);
-              // reload
-              window.location.reload();
-            }}
-          >
-            Remove
-          </Button>
+              <input
+                type="text"
+                placeholder="Symbol"
+                id="token-symbol"
+                className="h-11 w-full border-r text-sm  dark:bg-light-dark sm:h-13 sm:text-base"
+              />
+              <input
+                type="number"
+                placeholder="Decimal"
+                id="token-decimals"
+                className="h-11 w-full rounded-r-lg border-r text-sm dark:bg-light-dark sm:h-13 sm:text-base"
+              />
+            </div>
+            <Button
+              size="medium"
+              shape="rounded"
+              fullWidth={false}
+              className="w-1/12 uppercase xs:tracking-widest xl:px-2 2xl:px-9"
+              onClick={() => {
+                removeToken(firstCoin.contract);
+                console.log(firstCoin.contract);
+                // reload
+                window.location.reload();
+              }}
+            >
+              ➖
+            </Button>
+          </div>
         </div>
       )}
       {transactionType === 'exchange' && (
@@ -491,6 +508,9 @@ export default function TransactCoin({
         <TabPanels>
           <TabPanel className="focus:outline-none">
             <CoinTransaction transactionType="send" />
+          </TabPanel>
+          <TabPanel className="focus:outline-none">
+            <CoinTransaction transactionType="erc20" />
           </TabPanel>
           <TabPanel className="focus:outline-none">
             <CoinTransaction transactionType="custom" />
