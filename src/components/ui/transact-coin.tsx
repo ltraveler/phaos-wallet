@@ -40,7 +40,7 @@ const tabMenu = [
     title: (
       <>
         <CustomTokenErc20 className="mr-1 inline-block h-auto w-5 fill-white" />
-        ERC-20
+        IRC20
       </>
     ),
     path: 'erc20',
