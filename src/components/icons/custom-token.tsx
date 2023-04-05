@@ -5,6 +5,8 @@ export function CustomToken(props: React.SVGAttributes<{}>) {
       width="25"
       height="25"
       viewBox="0 0 32 32"
+      strokeWidth={1.3}
+      stroke="currentColor"
       fill="none"
       {...props}
     >

@@ -5,6 +5,8 @@ import { Tab, TabPanels, TabPanel } from '@/components/ui/tab';
 import { ChevronDown } from '@/components/icons/chevron-down';
 import { CustomToken } from '@/components/icons/custom-token';
 import { CustomTokenErc20 } from '@/components/icons/custom-token-erc20';
+import { AddTokenPlus } from '@/components/icons/add-token-plus';
+import { RemoveTokenMinus } from '@/components/icons/remove-token-minus';
 import { SendToken } from '@/components/icons/send-token';
 import { AddRemoveCtrl } from '@/components/icons/add-remove-ctrl';
 // import { coinList } from '@/data/static/coin-list';
@@ -314,7 +316,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 }, 1000);
               }}
             >
-              ➕
+              <AddTokenPlus className="h-auto w-5 fill-white" />
             </Button>
             <Button
               size="medium"
@@ -328,7 +330,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 window.location.reload();
               }}
             >
-              ➖
+              <RemoveTokenMinus className="h-auto w-5 fill-white" />
             </Button>
           </div>
           <div className="grid grid-cols-3 gap-x-4"></div>
@@ -381,7 +383,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 }, 1000);
               }}
             >
-              ➕
+              <AddTokenPlus className="h-auto w-5 fill-white" />
             </Button>
           </div>
           <div className="mt-2 flex items-center gap-x-2">
@@ -418,7 +420,7 @@ function CoinTransaction({ transactionType }: CoinTransactionProps) {
                 window.location.reload();
               }}
             >
-              ➖
+              <RemoveTokenMinus className="h-auto w-5 fill-white" />
             </Button>
           </div>
         </div>
