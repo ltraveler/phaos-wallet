@@ -16,38 +16,33 @@ import { LinkIcon } from '@/components/icons/link-icon';
 // import { TransactionData } from '@/data/static/transaction-data';
 import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
 import { useIsMounted } from '@/lib/hooks/use-is-mounted';
+import { getTransactionData } from '@/components/idena/transactions';
 
-const TransactionData = [
-  // {
-  //   id: 0,
-  //   transactionType: 'Buy',
-  //   createdAt: '8 february 2023',
-  //   symbol: 'iDNA',
-  //   status: 'Pending',
-  //   address: '0x6390e03ec...',
-  //   amount: {
-  //     balance: '0.2231345',
-  //     usdBalance: '11,032.24',
-  //   },
-    {
-    id: 0,
-    transactionType: 'coming soon',
-    createdAt: 'coming soon',
-    symbol: 'coming soon',
-    status: 'coming soon',
-    address: 'coming soon',
-    amount: {
-      balance: 'coming soon',
-      usdBalance: 'coming soon',
-    },
-  }
-];
+
+
 const COLUMNS = [
+  {
+    Header: () => <div className="ltr:ml-auto rtl:mr-auto">Txid</div>,
+    accessor: 'txid',
+    // @ts-ignore
+    Cell: ({ cell: { value } }) => (
+      <LinkIcon className="h-[18px] w-[18px] ltr:mr-2 rtl:ml-2"
+        onClick={() => {
+          window.open("https://scan.idena.io/transaction/" + value);
+        }
+      }
+      />
+      
+    ),
+    minWidth: 25,
+    maxWidth: 50,
+  },
   {
     Header: 'ID',
     accessor: 'id',
     minWidth: 60,
     maxWidth: 80,
+    
   },
   {
     Header: 'Type',
@@ -65,33 +60,38 @@ const COLUMNS = [
     minWidth: 160,
     maxWidth: 220,
   },
-  {
-    Header: () => <div className="ltr:ml-auto rtl:mr-auto">Asset</div>,
-    accessor: 'symbol',
-    // @ts-ignore
-    Cell: ({ cell: { value } }) => (
-      <div className="ltr:text-right rtl:text-left">{value}</div>
-    ),
-    minWidth: 80,
-    maxWidth: 120,
-  },
-  {
-    Header: () => <div className="ltr:ml-auto rtl:mr-auto">Status</div>,
-    accessor: 'status',
-    // @ts-ignore
-    Cell: ({ cell: { value } }) => (
-      <div className="ltr:text-right rtl:text-left">{value}</div>
-    ),
-    minWidth: 100,
-    maxWidth: 180,
-  },
+  // {
+  //   Header: () => <div className="ltr:ml-auto rtl:mr-auto">Asset</div>,
+  //   accessor: 'symbol',
+  //   // @ts-ignore
+  //   Cell: ({ cell: { value } }) => (
+  //     <div className="ltr:text-right rtl:text-left">{value}</div>
+  //   ),
+  //   minWidth: 80,
+  //   maxWidth: 120,
+  // },
+  // {
+  //   Header: () => <div className="ltr:ml-auto rtl:mr-auto">Status</div>,
+  //   accessor: 'status',
+  //   // @ts-ignore
+  //   Cell: ({ cell: { value } }) => (
+  //     <div className="ltr:text-right rtl:text-left">{value}</div>
+  //   ),
+  //   minWidth: 100,
+  //   maxWidth: 180,
+  // },
   {
     Header: () => <div className="ltr:ml-auto rtl:mr-auto">Address</div>,
     accessor: 'address',
     // @ts-ignore
     Cell: ({ cell: { value } }) => (
       <div className="flex items-center justify-end">
-        <LinkIcon className="h-[18px] w-[18px] ltr:mr-2 rtl:ml-2" /> {value}
+        <LinkIcon className="h-[18px] w-[18px] ltr:mr-2 rtl:ml-2" 
+          onClick={() => {
+            window.open("https://scan.idena.io/address/" + value);
+          }
+        }
+        /> {value}
       </div>
     ),
     minWidth: 220,
@@ -110,7 +110,7 @@ const COLUMNS = [
           </span>
         </strong>
         <span className="text-gray-600 dark:text-gray-400">
-          ${value.usdBalance}
+          {/* ${value.usdBalance} */}
         </span>
       </div>
     ),
@@ -120,9 +120,27 @@ const COLUMNS = [
 ];
 
 export default function TransactionTable() {
-  const data = React.useMemo(() => TransactionData, []);
   const columns = React.useMemo(() => COLUMNS, []);
+  const [oneTime, setOneTime] = React.useState(true);
+  const address = localStorage.getItem('address');
+  const TransactionData =  [];
 
+  // const data = React.useMemo(() => TransactionData, []);
+  const [data, setData] = React.useState(TransactionData);
+  const [load, setLoad] = React.useState(0);
+
+  setTimeout(() => {
+    if (load == 0) {
+      setLoad(1);
+      getTransactionData(address).then((res) => {
+        // set to data
+        console.log("got data",res);
+        setData(res);
+      });
+
+
+    }
+  }, 1000);
   const {
     getTableProps,
     getTableBodyProps,
