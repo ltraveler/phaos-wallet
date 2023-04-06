@@ -55,7 +55,8 @@ const COLUMNS = [
     accessor: 'createdAt',
     // @ts-ignore
     Cell: ({ cell: { value } }) => (
-      <div className="ltr:text-right rtl:text-left">{value}</div>
+      // to human readable date
+      <div className="ltr:text-right rtl:text-left">{ new Date(value).toLocaleString() }</div>
     ),
     minWidth: 160,
     maxWidth: 220,
@@ -139,8 +140,6 @@ export default function TransactionTable() {
           setData(res);
         });
       }
-
-
     }
   }, 1000);
   const {
