@@ -25,6 +25,24 @@ export const getTransactionData = async (address: string) => {
         // usdBalance: "SOON",
       },
     }
+    if (item.type === "SendTx") {
+      // set RECIVE or SEND
+      if (item.to.toLowerCase() === address.toLowerCase()) {
+        TransactionData[index].transactionType = "RECIVE";
+      }
+      else {
+        TransactionData[index].transactionType = "SEND";
+      }
+
+    }
+    else if (item.type === "CallContract") {
+      // for now noting
+      TransactionData[index].transactionType = item.txReceipt.method 
+    }
+    else {
+      // remove the tx if its not a send or call
+      TransactionData.splice(index, 1);
+    }
   });
   return TransactionData;
   
