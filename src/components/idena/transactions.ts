@@ -5,6 +5,7 @@
 
 
 export const getTransactionData = async (address: string) => {
+
   const response = await fetch(`https://api.idena.io/api/Address/${address}/Txs?limit=100`);
   let data = await response.json();
   let TransactionData = [];

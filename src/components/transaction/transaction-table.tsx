@@ -132,11 +132,13 @@ export default function TransactionTable() {
   setTimeout(() => {
     if (load == 0) {
       setLoad(1);
-      getTransactionData(address).then((res) => {
-        // set to data
-        console.log("got data",res);
-        setData(res);
-      });
+      if (address) {
+        getTransactionData(address).then((res) => {
+          // set to data
+          console.log("got data",res);
+          setData(res);
+        });
+      }
 
 
     }
