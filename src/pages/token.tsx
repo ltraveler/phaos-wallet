@@ -178,12 +178,12 @@ const AuthorProfilePage: NextPageWithLayout<
                 </dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                   {/* 100 - floor(500 / age) */}
-                  {/* check if age above 6 */}
-                  {age > 6 ? 100 - Math.floor(500 / age) : 0}
+                  {/* check if age above 5 */}
+                  {age >= 6 ? 100 - Math.floor(500 / age) : 0}
                 </dd>
               </div>
               <div>
-                {age > 6 && hasClaimed1 === false ? (
+                {age >= 6 && hasClaimed1 === false ? (
                   <Button
                     size="large"
                     shape="rounded"
@@ -208,8 +208,7 @@ const AuthorProfilePage: NextPageWithLayout<
                   <div>
                     <div className="mt-6 px-4 text-gray-500 dark:text-gray-400 sm:px-6">
                       <p>
-                        <span className="font-bold">*</span> Age must be above 6
-                        to claim
+                        <span className="font-bold">*</span> You can only claim once and your age must be above 5
                       </p>
                     </div>
                     <Button
